@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TechUnaVerse — Building Legacies Through Innovation</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:    #080C22;
+      --navy2:   #0F1535;
+      --navy3:   #1A2045;
+      --gold:    #D4AF37;
+      --gold2:   #F0CC5A;
+      --purple:  #7C3AED;
+      --purple2: #9D6DF5;
+      --white:   #FFFFFF;
+      --gray:    #94A3B8;
+      --gray2:   #CBD5E1;
+      --border:  rgba(212,175,55,0.15);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--navy);
+      color: var(--white);
+      min-height: 100vh;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 2.5rem;
+      background: rgba(8,12,34,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      display: flex; align-items: center; gap: 0.6rem; cursor: pointer;
+      text-decoration: none;
+    }
+    .logo-mark {
+      width: 36px; height: 36px; border-radius: 8px;
+      background: linear-gradient(135deg, var(--purple), var(--gold));
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 900; font-size: 1rem; color: var(--white);
+      font-family: 'Playfair Display', serif;
+    }
+    .logo-text { font-size: 1.1rem; font-weight: 700; letter-spacing: -0.01em; }
+    .logo-text span { color: var(--gold); }
+
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--gray2); text-decoration: none; font-size: 0.9rem;
+      font-weight: 500; transition: color 0.2s;
+      cursor: pointer;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+
+    .nav-cta {
+      background: linear-gradient(135deg, var(--purple), var(--purple2));
+      color: var(--white); border: none; padding: 0.6rem 1.4rem;
+      border-radius: 8px; font-size: 0.9rem; font-weight: 600;
+      cursor: pointer; transition: opacity 0.2s;
+    }
+    .nav-cta:hover { opacity: 0.85; }
+
+    /* ─── PAGES ─── */
+    .page { display: none; padding-top: 80px; min-height: 100vh; }
+    .page.active { display: block; }
+
+    /* ─── HERO ─── */
+    .hero {
+      position: relative; overflow: hidden;
+      padding: 6rem 2.5rem 5rem;
+      text-align: center;
+      background: radial-gradient(ellipse at 50% 0%, rgba(124,58,237,0.25) 0%, transparent 60%),
+                  radial-gradient(ellipse at 80% 60%, rgba(212,175,55,0.1) 0%, transparent 50%);
+    }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(124,58,237,0.15); border: 1px solid rgba(124,58,237,0.3);
+      border-radius: 100px; padding: 0.35rem 1rem;
+      font-size: 0.78rem; font-weight: 600; color: var(--purple2);
+      letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 2rem;
+    }
+    .hero-badge::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--purple2); display: block;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-weight: 900; line-height: 1.08;
+      letter-spacing: -0.02em; margin-bottom: 1.5rem;
+    }
+    .hero h1 .accent { color: var(--gold); }
+    .hero h1 .accent2 { color: var(--purple2); }
+
+    .hero-sub {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--gray); max-width: 600px; margin: 0 auto 2.5rem;
+      line-height: 1.7; font-weight: 400;
+    }
+
+    .hero-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--purple), var(--purple2));
+      color: var(--white); border: none; padding: 0.85rem 2rem;
+      border-radius: 10px; font-size: 1rem; font-weight: 600;
+      cursor: pointer; transition: transform 0.2s, opacity 0.2s;
+    }
+    .btn-primary:hover { transform: translateY(-2px); opacity: 0.9; }
+
+    .btn-secondary {
+      background: transparent; color: var(--gold);
+      border: 1.5px solid var(--gold); padding: 0.85rem 2rem;
+      border-radius: 10px; font-size: 1rem; font-weight: 600;
+      cursor: pointer; transition: background 0.2s, color 0.2s;
+    }
+    .btn-secondary:hover { background: var(--gold); color: var(--navy); }
+
+    /* ─── STATS ─── */
+    .stats {
+      display: flex; justify-content: center; gap: 3rem;
+      padding: 2.5rem; flex-wrap: wrap;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .stat { text-align: center; }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem; font-weight: 700; color: var(--gold);
+    }
+    .stat-label { font-size: 0.82rem; color: var(--gray); margin-top: 0.25rem; }
+
+    /* ─── SECTION ─── */
+    section { padding: 5rem 2.5rem; max-width: 1100px; margin: 0 auto; }
+
+    .section-label {
+      display: inline-block; font-size: 0.75rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--purple2); margin-bottom: 1rem;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 900; line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+    .section-title .accent { color: var(--gold); }
+    .section-body { color: var(--gray); line-height: 1.8; max-width: 650px; }
+
+    /* ─── DIVISIONS GRID ─── */
+    .divisions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem; margin-top: 3rem;
+    }
+
+    .division-card {
+      background: var(--navy2);
+      border: 1px solid var(--border);
+      border-radius: 16px; padding: 2rem;
+      transition: transform 0.25s, border-color 0.25s;
+      cursor: pointer;
+    }
+    .division-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(212,175,55,0.4);
+    }
+
+    .card-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; margin-bottom: 1rem;
+    }
+
+    .card-tag {
+      display: inline-block; font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 0.2rem 0.6rem; border-radius: 100px; margin-bottom: 0.75rem;
+    }
+    .tag-active { background: rgba(212,175,55,0.15); color: var(--gold); }
+    .tag-future { background: rgba(124,58,237,0.15); color: var(--purple2); }
+
+    .card-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .card-body { font-size: 0.9rem; color: var(--gray); line-height: 1.6; }
+
+    /* ─── SERVICES ─── */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem; margin-top: 3rem;
+    }
+
+    .service-card {
+      background: var(--navy2);
+      border: 1px solid var(--border);
+      border-radius: 16px; padding: 2rem;
+      position: relative; overflow: hidden;
+      transition: transform 0.25s, border-color 0.25s;
+    }
+    .service-card:hover { transform: translateY(-4px); border-color: rgba(124,58,237,0.5); }
+    .service-card.featured {
+      border-color: rgba(212,175,55,0.5);
+      background: linear-gradient(135deg, var(--navy2), rgba(212,175,55,0.05));
+    }
+    .featured-badge {
+      position: absolute; top: 1rem; right: 1rem;
+      background: var(--gold); color: var(--navy);
+      font-size: 0.68rem; font-weight: 800; letter-spacing: 0.06em;
+      text-transform: uppercase; padding: 0.2rem 0.6rem; border-radius: 100px;
+    }
+
+    .service-price {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem; font-weight: 700; color: var(--gold);
+      margin: 1rem 0 0.5rem;
+    }
+    .service-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .service-desc { font-size: 0.88rem; color: var(--gray); line-height: 1.6; margin-bottom: 1.25rem; }
+
+    .service-features { list-style: none; margin-bottom: 1.5rem; }
+    .service-features li {
+      font-size: 0.85rem; color: var(--gray2); padding: 0.3rem 0;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .service-features li::before {
+      content: '✓'; color: var(--gold); font-weight: 700; font-size: 0.8rem;
+    }
+
+    .btn-card {
+      width: 100%; background: rgba(124,58,237,0.15);
+      border: 1px solid rgba(124,58,237,0.3);
+      color: var(--purple2); padding: 0.7rem;
+      border-radius: 8px; font-size: 0.9rem; font-weight: 600;
+      cursor: pointer; transition: background 0.2s, color 0.2s;
+    }
+    .btn-card:hover { background: var(--purple); color: var(--white); border-color: var(--purple); }
+    .service-card.featured .btn-card {
+      background: rgba(212,175,55,0.15); border-color: rgba(212,175,55,0.3);
+      color: var(--gold);
+    }
+    .service-card.featured .btn-card:hover {
+      background: var(--gold); color: var(--navy); border-color: var(--gold);
+    }
+
+    /* ─── ABOUT ─── */
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 5rem;
+      align-items: center; margin-top: 2rem;
+    }
+    @media(max-width: 768px) { .about-grid { grid-template-columns: 1fr; gap: 2.5rem; } }
+
+    .about-visual {
+      background: linear-gradient(135deg, var(--navy3), var(--navy2));
+      border: 1px solid var(--border); border-radius: 20px;
+      padding: 3rem; text-align: center;
+    }
+    .una-initials {
+      font-family: 'Playfair Display', serif;
+      font-size: 5rem; font-weight: 900;
+      background: linear-gradient(135deg, var(--gold), var(--purple2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1; margin-bottom: 1.5rem;
+    }
+    .una-pillars { display: flex; flex-direction: column; gap: 1rem; }
+    .una-pillar {
+      background: rgba(255,255,255,0.04); border-radius: 10px; padding: 0.75rem 1rem;
+      text-align: left; border: 1px solid var(--border);
+    }
+    .pillar-letter { font-size: 0.75rem; font-weight: 800; color: var(--gold); letter-spacing: 0.1em; }
+    .pillar-word { font-size: 0.95rem; font-weight: 600; margin-top: 0.1rem; }
+    .pillar-desc { font-size: 0.8rem; color: var(--gray); margin-top: 0.1rem; }
+
+    .about-content p { color: var(--gray); line-height: 1.8; margin-bottom: 1.25rem; }
+    .about-content p strong { color: var(--white); }
+
+    .values-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 3rem;
+    }
+    .value-item {
+      background: var(--navy2); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.25rem;
+    }
+    .value-title { font-size: 0.9rem; font-weight: 700; color: var(--gold2); margin-bottom: 0.3rem; }
+    .value-desc { font-size: 0.82rem; color: var(--gray); line-height: 1.5; }
+
+    /* ─── CONTACT ─── */
+    .contact-grid {
+      display: grid; grid-template-columns: 1fr 1.5fr; gap: 4rem; margin-top: 2rem;
+    }
+    @media(max-width: 768px) { .contact-grid { grid-template-columns: 1fr; } }
+
+    .contact-info h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 1.5rem; }
+    .contact-item {
+      display: flex; gap: 1rem; align-items: flex-start;
+      margin-bottom: 1.5rem;
+    }
+    .contact-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: rgba(124,58,237,0.15);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; flex-shrink: 0;
+    }
+    .contact-label { font-size: 0.78rem; color: var(--gray); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; }
+    .contact-value { font-size: 0.95rem; font-weight: 500; margin-top: 0.2rem; }
+    .contact-value a { color: var(--white); text-decoration: none; }
+    .contact-value a:hover { color: var(--gold); }
+
+    .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media(max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
+
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .form-group label { font-size: 0.82rem; font-weight: 600; color: var(--gray2); }
+    .form-group input, .form-group select, .form-group textarea {
+      background: var(--navy2); border: 1px solid var(--border);
+      border-radius: 10px; padding: 0.75rem 1rem;
+      color: var(--white); font-family: 'Inter', sans-serif; font-size: 0.9rem;
+      transition: border-color 0.2s; outline: none;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      border-color: rgba(124,58,237,0.6);
+    }
+    .form-group select option { background: var(--navy2); }
+    .form-group textarea { resize: vertical; min-height: 120px; }
+
+    .btn-submit {
+      background: linear-gradient(135deg, var(--purple), var(--purple2));
+      color: var(--white); border: none; padding: 1rem;
+      border-radius: 10px; font-size: 1rem; font-weight: 700;
+      cursor: pointer; transition: opacity 0.2s, transform 0.2s;
+    }
+    .btn-submit:hover { opacity: 0.9; transform: translateY(-2px); }
+
+    /* ─── CTA BANNER ─── */
+    .cta-banner {
+      margin: 4rem 2.5rem;
+      background: linear-gradient(135deg, rgba(124,58,237,0.2), rgba(212,175,55,0.1));
+      border: 1px solid rgba(212,175,55,0.25);
+      border-radius: 20px; padding: 3.5rem;
+      text-align: center;
+    }
+    .cta-banner h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      font-weight: 900; margin-bottom: 1rem;
+    }
+    .cta-banner p { color: var(--gray); margin-bottom: 2rem; font-size: 1rem; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--navy2);
+      border-top: 1px solid var(--border);
+      padding: 3rem 2.5rem 2rem;
+    }
+    .footer-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; justify-content: space-between; align-items: flex-start;
+      gap: 2rem; flex-wrap: wrap;
+    }
+    .footer-brand p { color: var(--gray); font-size: 0.88rem; margin-top: 0.5rem; max-width: 280px; line-height: 1.6; }
+    .footer-tagline { color: var(--gold); font-size: 0.82rem; font-style: italic; margin-top: 0.75rem; }
+    .footer-links h4 { font-size: 0.85rem; font-weight: 700; color: var(--gray2); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 1rem; }
+    .footer-links ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+    .footer-links li a { color: var(--gray); font-size: 0.88rem; text-decoration: none; cursor: pointer; transition: color 0.2s; }
+    .footer-links li a:hover { color: var(--gold); }
+    .footer-bottom {
+      max-width: 1100px; margin: 2rem auto 0;
+      border-top: 1px solid var(--border); padding-top: 1.5rem;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 1rem;
+      font-size: 0.82rem; color: var(--gray);
+    }
+
+    /* ─── STARS BG ─── */
+    .stars {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none; z-index: 0; overflow: hidden;
+    }
+    .star {
+      position: absolute; border-radius: 50%;
+      background: rgba(255,255,255,0.5);
+      animation: twinkle linear infinite;
+    }
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.2; } 50% { opacity: 0.8; }
+    }
+
+    .page > * { position: relative; z-index: 1; }
+  </style>
+</head>
+<body>
+
+<!-- Stars -->
+<div class="stars" id="stars"></div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" onclick="showPage('home')">
+    <div class="logo-mark">T</div>
+    <span class="logo-text">Tech<span>Una</span>Verse</span>
+  </a>
+  <ul class="nav-links">
+    <li><a onclick="showPage('home')" id="nav-home" class="active">Home</a></li>
+    <li><a onclick="showPage('about')" id="nav-about">About</a></li>
+    <li><a onclick="showPage('divisions')" id="nav-divisions">Divisions</a></li>
+    <li><a onclick="showPage('services')" id="nav-services">Services</a></li>
+    <li><a onclick="showPage('contact')" id="nav-contact">Contact</a></li>
+  </ul>
+  <button class="nav-cta" onclick="showPage('contact')">Work With Us</button>
+</nav>
+
+<!-- ═══════════════ HOME ═══════════════ -->
+<div id="page-home" class="page active">
+
+  <div class="hero">
+    <div class="hero-badge">Building Legacies Through Innovation</div>
+    <h1>
+      A <span class="accent">Universe</span> of<br/>
+      <span class="accent2">Possibilities</span>
+    </h1>
+    <p class="hero-sub">
+      TechUnaVerse is an ecosystem of brands, tools, and experiences designed to empower
+      creators, builders, innovators, and entrepreneurs to shape their futures.
+    </p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="showPage('services')">Explore Services</button>
+      <button class="btn-secondary" onclick="showPage('about')">Our Story</button>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-num">5</div>
+      <div class="stat-label">Active Divisions</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">$1M+</div>
+      <div class="stat-label">Year 5 Revenue Goal</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">100K+</div>
+      <div class="stat-label">Lives to Impact</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">∞</div>
+      <div class="stat-label">Creativity Without Limits</div>
+    </div>
+  </div>
+
+  <section>
+    <span class="section-label">Our Ecosystem</span>
+    <h2 class="section-title">One Mission.<br/><span class="accent">Many Vehicles.</span></h2>
+    <p class="section-body">
+      From AI consulting to custom woodworking, real estate to education — every division
+      of TechUnaVerse exists to help people build. Build businesses, products, skills, wealth, and futures.
+    </p>
+
+    <div class="divisions-grid">
+      <div class="division-card" onclick="showPage('divisions')">
+        <div class="card-icon" style="background:rgba(124,58,237,0.15)">🤖</div>
+        <span class="card-tag tag-active">Active</span>
+        <div class="card-title">TechUnaVerse AI</div>
+        <div class="card-body">AI consulting, workflow automation, knowledge management systems, and digital transformation for growing businesses.</div>
+      </div>
+      <div class="division-card" onclick="showPage('divisions')">
+        <div class="card-icon" style="background:rgba(212,175,55,0.1)">🪵</div>
+        <span class="card-tag tag-active">Active</span>
+        <div class="card-title">UNA Studios</div>
+        <div class="card-body">Custom woodworking, Greek paddles, laser engraving, Cricut products, personalized gifts, and home décor.</div>
+      </div>
+      <div class="division-card" onclick="showPage('divisions')">
+        <div class="card-icon" style="background:rgba(124,58,237,0.1)">✨</div>
+        <span class="card-tag tag-future">Coming Soon</span>
+        <div class="card-title">UNA</div>
+        <div class="card-body">A purpose-driven lifestyle brand for those who are Unbound, Noble, and Ambitious.</div>
+      </div>
+      <div class="division-card" onclick="showPage('divisions')">
+        <div class="card-icon" style="background:rgba(212,175,55,0.1)">🏗️</div>
+        <span class="card-tag tag-future">Coming Soon</span>
+        <div class="card-title">BuildUNA</div>
+        <div class="card-body">Real estate acquisition, multifamily housing, mixed-use development, and community investment.</div>
+      </div>
+      <div class="division-card" onclick="showPage('divisions')">
+        <div class="card-icon" style="background:rgba(124,58,237,0.1)">🎓</div>
+        <span class="card-tag tag-future">Coming Soon</span>
+        <div class="card-title">UNA Makers Lab</div>
+        <div class="card-body">Nonprofit providing STEM, AI literacy, robotics, coding, and entrepreneurship education for underserved youth.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="cta-banner">
+    <h2>Ready to Build Something <span style="color:var(--gold)">Meaningful?</span></h2>
+    <p>Whether you're looking for AI solutions, a custom creation, or a partner in your vision — TechUnaVerse is ready.</p>
+    <button class="btn-primary" onclick="showPage('contact')">Start the Conversation</button>
+  </div>
+
+</div>
+
+<!-- ═══════════════ ABOUT ═══════════════ -->
+<div id="page-about" class="page">
+  <section style="max-width:1100px;margin:0 auto;padding:5rem 2.5rem 2rem">
+    <span class="section-label">Our Story</span>
+    <h2 class="section-title">Built for the <span class="accent">Multidimensional</span> Creator</h2>
+
+    <div class="about-grid">
+      <div class="about-visual">
+        <div class="una-initials">UNA</div>
+        <div class="una-pillars">
+          <div class="una-pillar">
+            <div class="pillar-letter">U — UNBOUND</div>
+            <div class="pillar-word">Creativity Without Limits</div>
+            <div class="pillar-desc">Freedom from expectations, labels, and restrictions</div>
+          </div>
+          <div class="una-pillar">
+            <div class="pillar-letter">N — NOBLE</div>
+            <div class="pillar-word">Purpose, Integrity, Legacy</div>
+            <div class="pillar-desc">Building with honesty, discipline, and generational intent</div>
+          </div>
+          <div class="una-pillar">
+            <div class="pillar-letter">A — AMBITIOUS</div>
+            <div class="pillar-word">Growth, Innovation, Vision</div>
+            <div class="pillar-desc">Pursuing meaningful goals and celebrating achievement</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="about-content">
+        <p>TechUnaVerse was not created from a single business idea. <strong>It was created from a realization.</strong></p>
+        <p>For years, our founder Brionna Una Alexander struggled with the idea that she needed to choose one path, one interest, one skillset, or one identity. Technology fascinated her. Creativity inspired her. Education motivated her. Real estate represented opportunity. Craftsmanship represented expression.</p>
+        <p>The world often teaches people to specialize so deeply that they ignore the other parts of themselves. <strong>TechUnaVerse was created to challenge that idea.</strong></p>
+        <p>The name UNA carries deep personal significance — representing a legacy passed through generations and transformed into a symbol of purpose-driven ambition. It is a reminder that creativity should remain unbound, purpose should remain noble, and ambition should always be celebrated.</p>
+        <p><strong>TechUnaVerse exists because creativity should not have limits, innovation should not have boundaries, and every idea deserves the opportunity to become reality.</strong></p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <span class="section-label">What We Believe</span>
+    <h2 class="section-title">Our Core <span class="accent">Values</span></h2>
+    <div class="values-grid">
+      <div class="value-item">
+        <div class="value-title">Creativity Without Limits</div>
+        <div class="value-desc">Innovation occurs when people are free to explore ideas beyond traditional boundaries.</div>
+      </div>
+      <div class="value-item">
+        <div class="value-title">Innovation Through Action</div>
+        <div class="value-desc">Ideas become meaningful only when executed. We value action, experimentation, and continuous improvement.</div>
+      </div>
+      <div class="value-item">
+        <div class="value-title">Accessibility For All</div>
+        <div class="value-desc">High-quality products, services, and opportunities should not be reserved for the privileged few.</div>
+      </div>
+      <div class="value-item">
+        <div class="value-title">Legacy Over Popularity</div>
+        <div class="value-desc">We are not building for attention. We are building for impact that outlasts trends.</div>
+      </div>
+      <div class="value-item">
+        <div class="value-title">Community Empowerment</div>
+        <div class="value-desc">Strong communities create strong futures. Success becomes more meaningful when it helps others succeed.</div>
+      </div>
+      <div class="value-item">
+        <div class="value-title">Family & Generational Impact</div>
+        <div class="value-desc">True success is measured by the opportunities we create for future generations.</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ═══════════════ DIVISIONS ═══════════════ -->
+<div id="page-divisions" class="page">
+  <section>
+    <span class="section-label">The Ecosystem</span>
+    <h2 class="section-title">Every Division Exists<br/>to Help People <span class="accent">Build.</span></h2>
+    <p class="section-body">Technology, creativity, development, education, and entrepreneurship are not separate pursuits — they are connected pathways to impact.</p>
+
+    <div style="display:flex;flex-direction:column;gap:2rem;margin-top:3rem">
+
+      <div class="division-card" style="display:grid;grid-template-columns:auto 1fr;gap:2rem;align-items:start">
+        <div class="card-icon" style="background:rgba(124,58,237,0.15);width:60px;height:60px;font-size:1.8rem">🤖</div>
+        <div>
+          <span class="card-tag tag-active">Active · AI & Technology</span>
+          <div class="card-title" style="font-size:1.4rem;margin-top:0.5rem">TechUnaVerse AI</div>
+          <div class="card-body" style="margin-top:0.5rem">We help businesses leverage artificial intelligence and automation to reduce manual work, improve efficiency, and scale operations. Our solutions are intuitive, accessible, and built for real people — not just technologists. Services include AI chatbot development, workflow automation, knowledge base systems, website development, and AI strategy consulting.</div>
+          <button class="btn-secondary" style="margin-top:1.25rem;padding:0.6rem 1.5rem;font-size:0.9rem" onclick="showPage('services')">View Services & Pricing →</button>
+        </div>
+      </div>
+
+      <div class="division-card" style="display:grid;grid-template-columns:auto 1fr;gap:2rem;align-items:start">
+        <div class="card-icon" style="background:rgba(212,175,55,0.1);width:60px;height:60px;font-size:1.8rem">🪵</div>
+        <div>
+          <span class="card-tag tag-active">Active · Creative Products</span>
+          <div class="card-title" style="font-size:1.4rem;margin-top:0.5rem">UNA Studios</div>
+          <div class="card-body" style="margin-top:0.5rem">The creative workshop of the TechUnaVerse ecosystem. UNA Studios transforms ideas into physical experiences through craftsmanship, design, and personalization. In a world driven by automation and mass production, there remains tremendous value in products created with intention and attention to detail. Products include custom Greek paddles, wooden wall art, home décor, laser engraved gifts, wedding and event products, personalized signs, and corporate gifts.</div>
+        </div>
+      </div>
+
+      <div class="division-card" style="display:grid;grid-template-columns:auto 1fr;gap:2rem;align-items:start">
+        <div class="card-icon" style="background:rgba(124,58,237,0.1);width:60px;height:60px;font-size:1.8rem">✨</div>
+        <div>
+          <span class="card-tag tag-future">Coming Soon · Lifestyle</span>
+          <div class="card-title" style="font-size:1.4rem;margin-top:0.5rem">UNA</div>
+          <div class="card-body" style="margin-top:0.5rem">A purpose-driven lifestyle brand built on the belief that what we wear should represent who we are, what we value, and what we aspire to become. Unbound. Noble. Ambitious. UNA is not merely apparel — it is a reflection of identity and a reminder that creativity should remain limitless.</div>
+        </div>
+      </div>
+
+      <div class="division-card" style="display:grid;grid-template-columns:auto 1fr;gap:2rem;align-items:start">
+        <div class="card-icon" style="background:rgba(212,175,55,0.1);width:60px;height:60px;font-size:1.8rem">🏗️</div>
+        <div>
+          <span class="card-tag tag-future">Coming Soon · Real Estate</span>
+          <div class="card-title" style="font-size:1.4rem;margin-top:0.5rem">BuildUNA Legacy Development</div>
+          <div class="card-body" style="margin-top:0.5rem">Real estate is one of the most powerful tools for creating generational wealth and strengthening communities. BuildUNA exists not simply to acquire property, but to create opportunities — through responsible investment, community-centered planning, residential development, multifamily housing, mixed-use projects, and long-term investment strategies.</div>
+        </div>
+      </div>
+
+      <div class="division-card" style="display:grid;grid-template-columns:auto 1fr;gap:2rem;align-items:start">
+        <div class="card-icon" style="background:rgba(124,58,237,0.1);width:60px;height:60px;font-size:1.8rem">🎓</div>
+        <div>
+          <span class="card-tag tag-future">Coming Soon · Nonprofit</span>
+          <div class="card-title" style="font-size:1.4rem;margin-top:0.5rem">UNA Makers Lab Foundation</div>
+          <div class="card-body" style="margin-top:0.5rem">Talent is universal, but opportunity is not. The Foundation provides educational experiences in coding, robotics, AI, electronics, woodworking, entrepreneurship, and financial literacy for students in underserved communities. The goal is not simply to teach technical skills — it is to build confidence and help the next generation believe they are capable of creating solutions and launching businesses.</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</div>
+
+<!-- ═══════════════ SERVICES ═══════════════ -->
+<div id="page-services" class="page">
+  <section>
+    <span class="section-label">TechUnaVerse AI</span>
+    <h2 class="section-title">Technology That Works<br/><span class="accent">For You.</span></h2>
+    <p class="section-body">We build practical AI solutions that save time, reduce repetitive work, and help your team focus on what matters. No tech expertise required.</p>
+
+    <div class="services-grid">
+
+      <div class="service-card">
+        <div class="card-icon" style="background:rgba(124,58,237,0.15);font-size:1.3rem">💬</div>
+        <div class="service-title" style="margin-top:0.75rem">AI Strategy Session</div>
+        <div class="service-price">$250</div>
+        <div class="service-desc">90-minute consultation to assess your AI opportunities and build a clear roadmap.</div>
+        <ul class="service-features">
+          <li>90-Minute Deep Dive</li>
+          <li>AI Opportunity Assessment</li>
+          <li>Custom Roadmap & Recommendations</li>
+        </ul>
+        <button class="btn-card" onclick="showPage('contact')">Book a Session</button>
+      </div>
+
+      <div class="service-card">
+        <div class="card-icon" style="background:rgba(124,58,237,0.15);font-size:1.3rem">🧠</div>
+        <div class="service-title" style="margin-top:0.75rem">KnowledgeBot Launch Package</div>
+        <div class="service-price">$1,500</div>
+        <div class="service-desc">An AI assistant that centralizes your company knowledge and answers questions instantly.</div>
+        <ul class="service-features">
+          <li>Internal AI Assistant</li>
+          <li>FAQ Knowledge Base</li>
+          <li>Document Search</li>
+          <li>Employee Onboarding Support</li>
+          <li>Setup, Training & User Guide</li>
+        </ul>
+        <button class="btn-card" onclick="showPage('contact')">Get Started</button>
+      </div>
+
+      <div class="service-card featured">
+        <div class="featured-badge">Most Popular</div>
+        <div class="card-icon" style="background:rgba(212,175,55,0.1);font-size:1.3rem">⚡</div>
+        <div class="service-title" style="margin-top:0.75rem">Business Automation Package</div>
+        <div class="service-price">$3,000</div>
+        <div class="service-desc">Automate your most repetitive processes and reclaim hours every week.</div>
+        <ul class="service-features">
+          <li>Workflow Assessment & Process Mapping</li>
+          <li>Custom Automation Development</li>
+          <li>Testing & Deployment</li>
+          <li>Process Documentation</li>
+          <li>Staff Training</li>
+        </ul>
+        <button class="btn-card" onclick="showPage('contact')">Get Started</button>
+      </div>
+
+      <div class="service-card">
+        <div class="card-icon" style="background:rgba(124,58,237,0.15);font-size:1.3rem">🌐</div>
+        <div class="service-title" style="margin-top:0.75rem">Website Development</div>
+        <div class="service-price">$1,500+</div>
+        <div class="service-desc">Modern, mobile-optimized websites built to convert visitors into clients.</div>
+        <ul class="service-features">
+          <li>Custom Design & Development</li>
+          <li>Mobile Optimization</li>
+          <li>Contact Forms & Lead Capture</li>
+          <li>SEO Foundation</li>
+          <li>Analytics Setup</li>
+        </ul>
+        <button class="btn-card" onclick="showPage('contact')">Get Started</button>
+      </div>
+
+      <div class="service-card" style="grid-column:span 1">
+        <div class="card-icon" style="background:rgba(124,58,237,0.15);font-size:1.3rem">🚀</div>
+        <div class="service-title" style="margin-top:0.75rem">Digital Transformation Package</div>
+        <div class="service-price">$5,000+</div>
+        <div class="service-desc">A comprehensive modernization of your operations — AI, automation, website, analytics, and training in one engagement.</div>
+        <ul class="service-features">
+          <li>Custom AI Assistant</li>
+          <li>Website Integration</li>
+          <li>Internal Knowledge System</li>
+          <li>Analytics Dashboard</li>
+          <li>Full Staff Training & Support</li>
+        </ul>
+        <button class="btn-card" onclick="showPage('contact')">Get Started</button>
+      </div>
+
+    </div>
+
+    <div style="background:var(--navy2);border:1px solid var(--border);border-radius:16px;padding:2rem;margin-top:3rem;text-align:center">
+      <div style="font-size:0.85rem;color:var(--gray);margin-bottom:0.5rem">Ideal Clients</div>
+      <div style="display:flex;flex-wrap:wrap;gap:0.75rem;justify-content:center;margin-top:1rem">
+        <span style="background:rgba(124,58,237,0.12);border:1px solid rgba(124,58,237,0.25);border-radius:100px;padding:0.35rem 0.9rem;font-size:0.82rem;color:var(--purple2)">Small Businesses</span>
+        <span style="background:rgba(124,58,237,0.12);border:1px solid rgba(124,58,237,0.25);border-radius:100px;padding:0.35rem 0.9rem;font-size:0.82rem;color:var(--purple2)">Real Estate Companies</span>
+        <span style="background:rgba(124,58,237,0.12);border:1px solid rgba(124,58,237,0.25);border-radius:100px;padding:0.35rem 0.9rem;font-size:0.82rem;color:var(--purple2)">Property Managers</span>
+        <span style="background:rgba(124,58,237,0.12);border:1px solid rgba(124,58,237,0.25);border-radius:100px;padding:0.35rem 0.9rem;font-size:0.82rem;color:var(--purple2)">Nonprofits</span>
+        <span style="background:rgba(124,58,237,0.12);border:1px solid rgba(124,58,237,0.25);border-radius:100px;padding:0.35rem 0.9rem;font-size:0.82rem;color:var(--purple2)">Healthcare Practices</span>
+        <span style="background:rgba(124,58,237,0.12);border:1px solid rgba(124,58,237,0.25);border-radius:100px;padding:0.35rem 0.9rem;font-size:0.82rem;color:var(--purple2)">Professional Services</span>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ═══════════════ CONTACT ═══════════════ -->
+<div id="page-contact" class="page">
+  <section>
+    <span class="section-label">Let's Connect</span>
+    <h2 class="section-title">Ready to <span class="accent">Build</span> Together?</h2>
+    <p class="section-body">Tell us about your project or challenge. We'll follow up within 24 hours to schedule a discovery call.</p>
+
+    <div class="contact-grid">
+      <div class="contact-info">
+        <h3>Get in Touch</h3>
+        <div class="contact-item">
+          <div class="contact-icon">📧</div>
+          <div>
+            <div class="contact-label">Email</div>
+            <div class="contact-value"><a href="mailto:admin@techunaverse.com">admin@techunaverse.com</a></div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">🏢</div>
+          <div>
+            <div class="contact-label">Company</div>
+            <div class="contact-value">TechUnaVerse LLC</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📍</div>
+          <div>
+            <div class="contact-label">State</div>
+            <div class="contact-value">Virginia, USA</div>
+          </div>
+        </div>
+        <div style="margin-top:2rem;padding:1.5rem;background:var(--navy2);border:1px solid var(--border);border-radius:12px">
+          <div style="font-size:0.85rem;font-weight:700;color:var(--gold2);margin-bottom:0.5rem">⏱ Response Time</div>
+          <div style="font-size:0.88rem;color:var(--gray);line-height:1.6">We respond to all inquiries within 24 business hours. For urgent needs, include "URGENT" in the subject line.</div>
+        </div>
+      </div>
+
+      <div>
+        <div class="contact-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label>First Name</label>
+              <input type="text" placeholder="Jane" />
+            </div>
+            <div class="form-group">
+              <label>Last Name</label>
+              <input type="text" placeholder="Smith" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" placeholder="jane@yourcompany.com" />
+          </div>
+          <div class="form-group">
+            <label>Company / Organization</label>
+            <input type="text" placeholder="Your Company Name" />
+          </div>
+          <div class="form-group">
+            <label>Service Interested In</label>
+            <select>
+              <option value="">Select a service...</option>
+              <option>AI Strategy Session ($250)</option>
+              <option>KnowledgeBot Launch Package ($1,500)</option>
+              <option>Business Automation Package ($3,000)</option>
+              <option>Website Development ($1,500+)</option>
+              <option>Digital Transformation Package ($5,000+)</option>
+              <option>UNA Studios — Custom Product</option>
+              <option>Not sure — Let's talk</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Tell Us About Your Project</label>
+            <textarea placeholder="What challenge are you trying to solve? What does success look like for you?"></textarea>
+          </div>
+          <button class="btn-submit" onclick="handleSubmit()">Send Message →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="nav-logo" style="cursor:default">
+        <div class="logo-mark">T</div>
+        <span class="logo-text">Tech<span>Una</span>Verse</span>
+      </div>
+      <p>An interconnected ecosystem of brands, tools, and experiences empowering creators, builders, and entrepreneurs to build meaningful lives and lasting legacies.</p>
+      <div class="footer-tagline">Unbound. Noble. Ambitious.</div>
+    </div>
+    <div class="footer-links">
+      <h4>Navigate</h4>
+      <ul>
+        <li><a onclick="showPage('home')">Home</a></li>
+        <li><a onclick="showPage('about')">About</a></li>
+        <li><a onclick="showPage('divisions')">Divisions</a></li>
+        <li><a onclick="showPage('services')">Services</a></li>
+        <li><a onclick="showPage('contact')">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-links">
+      <h4>Divisions</h4>
+      <ul>
+        <li><a onclick="showPage('divisions')">TechUnaVerse AI</a></li>
+        <li><a onclick="showPage('divisions')">UNA Studios</a></li>
+        <li><a onclick="showPage('divisions')">UNA (Coming Soon)</a></li>
+        <li><a onclick="showPage('divisions')">BuildUNA (Coming Soon)</a></li>
+        <li><a onclick="showPage('divisions')">UNA Makers Lab (Coming Soon)</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 TechUnaVerse LLC. All rights reserved. Virginia Entity ID: 12031792</span>
+    <span style="color:var(--gold)">Building Legacies Through Innovation.</span>
+  </div>
+</footer>
+
+<script>
+  // Stars
+  const starContainer = document.getElementById('stars');
+  for (let i = 0; i < 80; i++) {
+    const star = document.createElement('div');
+    star.className = 'star';
+    const size = Math.random() * 2 + 1;
+    star.style.cssText = `
+      width:${size}px; height:${size}px;
+      top:${Math.random()*100}%;
+      left:${Math.random()*100}%;
+      animation-duration:${Math.random()*4+2}s;
+      animation-delay:${Math.random()*3}s;
+    `;
+    starContainer.appendChild(star);
+  }
+
+  // Page routing
+  function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+    document.getElementById('page-' + id).classList.add('active');
+    const navLink = document.getElementById('nav-' + id);
+    if (navLink) navLink.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Form submit
+  function handleSubmit() {
+    alert('Thank you! Your message has been received. We\'ll follow up within 24 hours.');
+  }
+</script>
+</body>
+</html>
