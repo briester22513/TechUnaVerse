@@ -71,11 +71,11 @@ function StatCounter({ target, suffix = "", label }: { target: number | string; 
 }
 
 const DIVISIONS = [
-  { icon: "🤖", logo: "/assets/images/una-ai-logo.png", tag: "Active", tagClass: "bg-[rgba(212,175,55,0.15)] text-gold border-[rgba(212,175,55,0.3)]", title: "TechUnaVerse AI", body: "AI consulting, workflow automation, knowledge management systems, and digital transformation for growing businesses.", href: "/divisions" },
-  { icon: "🪵", logo: "/assets/images/unastudios-logo.png", tag: "Active", tagClass: "bg-[rgba(212,175,55,0.15)] text-gold border-[rgba(212,175,55,0.3)]", title: "UNA Studios", body: "Custom woodworking, Greek paddles, laser engraving, Cricut products, personalized gifts, and home décor.", href: "/divisions" },
-  { icon: "✨", logo: "/assets/images/una-apparel-logo.png", tag: "Coming Soon", tagClass: "bg-[rgba(124,58,237,0.15)] text-purple2 border-[rgba(124,58,237,0.3)]", title: "UNA", body: "A purpose-driven lifestyle brand for those who are Unbound, Noble, and Ambitious.", href: "/divisions" },
-  { icon: "🏗️", logo: "/assets/images/builduna-logo.png", tag: "Coming Soon", tagClass: "bg-[rgba(124,58,237,0.15)] text-purple2 border-[rgba(124,58,237,0.3)]", title: "BuildUNA", body: "Real estate acquisition, multifamily housing, mixed-use development, and community investment.", href: "/divisions" },
-  { icon: "🎓", logo: "/assets/images/makerslab-logo.png", tag: "Coming Soon", tagClass: "bg-[rgba(124,58,237,0.15)] text-purple2 border-[rgba(124,58,237,0.3)]", title: "UNA Makers Lab", body: "Nonprofit providing STEM, AI literacy, robotics, coding, and entrepreneurship for underserved youth.", href: "/divisions" },
+  { icon: "🤖", logo: "/assets/images/una-ai-logo.png", tag: "Active", tagClass: "bg-[rgba(212,175,55,0.15)] text-gold border-[rgba(212,175,55,0.3)]", title: "TechUnaVerse AI", body: "AI consulting, workflow automation, knowledge management systems, and digital transformation for growing businesses.", href: "/divisions#techunaverse-ai" },
+  { icon: "🪵", logo: "/assets/images/unastudios-logo.png", tag: "Active", tagClass: "bg-[rgba(212,175,55,0.15)] text-gold border-[rgba(212,175,55,0.3)]", title: "UNA Studios", body: "Custom woodworking, Greek paddles, laser engraving, Cricut products, personalized gifts, and home décor.", href: "/divisions#una-studios" },
+  { icon: "✨", logo: "/assets/images/una-apparel-logo.png", tag: "Coming Soon", tagClass: "bg-[rgba(124,58,237,0.15)] text-purple2 border-[rgba(124,58,237,0.3)]", title: "UNA", body: "A purpose-driven lifestyle brand for those who are Unbound, Noble, and Ambitious.", href: "/divisions#una" },
+  { icon: "🏗️", logo: "/assets/images/builduna-logo.png", tag: "Coming Soon", tagClass: "bg-[rgba(124,58,237,0.15)] text-purple2 border-[rgba(124,58,237,0.3)]", title: "BuildUNA", body: "Real estate acquisition, multifamily housing, mixed-use development, and community investment.", href: "/divisions#builduna" },
+  { icon: "🎓", logo: "/assets/images/makerslab-logo.png", tag: "Coming Soon", tagClass: "bg-[rgba(124,58,237,0.15)] text-purple2 border-[rgba(124,58,237,0.3)]", title: "UNA Makers Lab", body: "Nonprofit providing STEM, AI literacy, robotics, coding, and entrepreneurship for underserved youth.", href: "/divisions#una-makers-lab" },
 ];
 
 export default function Home() {
@@ -198,9 +198,9 @@ export default function Home() {
                   href={href}
                   className="group block bg-glass border border-glass rounded-[20px] p-8 hover:border-[rgba(212,175,55,0.3)] hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(0,0,0,0.3)] transition-all duration-300 no-underline h-full"
                 >
-                  <div className="w-14 h-14 rounded-[14px] bg-[rgba(124,58,237,0.12)] flex items-center justify-center text-2xl mb-5">
+                  <div className="w-16 h-16 rounded-[14px] bg-[rgba(124,58,237,0.15)] border border-[rgba(124,58,237,0.2)] flex items-center justify-center text-2xl mb-5 flex-shrink-0">
                     {logo ? (
-                      <img src={logo} alt={`${title} logo`} className="w-10 h-10 object-contain" />
+                      <img src={logo} alt={`${title} logo`} className="w-12 h-12 object-contain drop-shadow-[0_0_8px_rgba(212,175,55,0.35)]" />
                     ) : (
                       icon
                     )}
