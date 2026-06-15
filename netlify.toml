@@ -1,0 +1,43 @@
+[build]
+  command   = "npm run build"
+  publish   = "out"
+
+[build.environment]
+  NODE_VERSION = "18"
+
+[functions]
+  directory = "netlify/functions"
+
+# ── Subdomain redirects ─────────────────────────────────────────────────────
+# To activate: add each subdomain as a custom domain in Netlify site settings,
+# then point a CNAME in your DNS provider to your Netlify site URL.
+
+[[redirects]]
+  from   = "https://ai.techunaverse.com/*"
+  to     = "https://techunaverse.com/divisions/techunaverse-ai/:splat"
+  status = 301
+  force  = true
+
+[[redirects]]
+  from   = "https://studios.techunaverse.com/*"
+  to     = "https://techunaverse.com/divisions/una-studios/:splat"
+  status = 301
+  force  = true
+
+[[redirects]]
+  from   = "https://apparel.techunaverse.com/*"
+  to     = "https://techunaverse.com/divisions/una/:splat"
+  status = 301
+  force  = true
+
+[[redirects]]
+  from   = "https://builduna.techunaverse.com/*"
+  to     = "https://techunaverse.com/divisions/builduna/:splat"
+  status = 301
+  force  = true
+
+[[redirects]]
+  from   = "https://makerslab.techunaverse.com/*"
+  to     = "https://techunaverse.com/divisions/una-makers-lab/:splat"
+  status = 301
+  force  = true

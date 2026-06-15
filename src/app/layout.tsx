@@ -5,6 +5,7 @@ import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import FloatCTA from "@/components/FloatCTA";
 import Stars from "@/components/Stars";
+import TyChatbot from "@/components/TyChatbot";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -43,6 +44,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main className="relative z-10">{children}</main>
         <Footer />
         <FloatCTA />
+        <TyChatbot />
       </body>
     </html>
   );
