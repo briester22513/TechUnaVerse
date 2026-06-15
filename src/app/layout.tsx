@@ -31,6 +31,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
       <body className="font-sans bg-navy text-white min-h-screen">
         <Stars />
+        {/* Site-wide logo watermark */}
+        <div aria-hidden="true" className="fixed inset-0 z-0 flex items-center justify-center pointer-events-none overflow-hidden">
+          <img
+            src="/assets/images/main-techunaverse-logo.png"
+            alt=""
+            className="w-[clamp(320px,58vw,680px)] opacity-[0.07] select-none brightness-125 saturate-50"
+          />
+        </div>
         <Nav />
         <main className="relative z-10">{children}</main>
         <Footer />

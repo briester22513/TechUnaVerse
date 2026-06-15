@@ -198,11 +198,11 @@ export default function Home() {
                   href={href}
                   className="group block bg-glass border border-glass rounded-[20px] p-8 hover:border-[rgba(212,175,55,0.3)] hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(0,0,0,0.3)] transition-all duration-300 no-underline h-full"
                 >
-                  <div className="w-16 h-16 rounded-[14px] bg-[rgba(124,58,237,0.15)] border border-[rgba(124,58,237,0.2)] flex items-center justify-center text-2xl mb-5 flex-shrink-0">
+                  <div className="w-full h-36 rounded-[14px] bg-[rgba(124,58,237,0.1)] border border-[rgba(124,58,237,0.15)] flex items-center justify-center mb-5 overflow-hidden">
                     {logo ? (
-                      <img src={logo} alt={`${title} logo`} className="w-12 h-12 object-contain drop-shadow-[0_0_8px_rgba(212,175,55,0.35)]" />
+                      <img src={logo} alt={`${title} logo`} className="w-full h-full object-contain p-3 drop-shadow-[0_0_18px_rgba(212,175,55,0.45)]" />
                     ) : (
-                      icon
+                      <span className="text-4xl">{icon}</span>
                     )}
                   </div>
                   <span className={`inline-block text-[0.68rem] font-bold uppercase tracking-wide px-2.5 py-0.5 rounded-full border mb-3 ${tagClass}`}>{tag}</span>

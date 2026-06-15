@@ -62,29 +62,31 @@ export default function Divisions() {
         </p>
       </ScrollReveal>
 
-      <div className="flex flex-col gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {DIVISIONS.map(({ slug, icon, logo, status, statusClass, title, body, href, cta }, i) => {
-          const cardClass = "bg-glass border border-glass rounded-[20px] p-6 sm:p-8 flex gap-4 sm:gap-6 items-start transition-all duration-300 hover:border-[rgba(212,175,55,0.25)] hover:-translate-y-0.5 hover:shadow-[0_16px_40px_rgba(0,0,0,0.25)] no-underline scroll-mt-24";
+          const cardClass = "bg-glass border border-glass rounded-[24px] overflow-hidden transition-all duration-300 hover:border-[rgba(212,175,55,0.3)] hover:-translate-y-1 hover:shadow-[0_20px_50px_rgba(0,0,0,0.35)] no-underline scroll-mt-24 block";
           const inner = (
             <>
-              <div className="w-[4.5rem] h-[4.5rem] min-w-[4.5rem] rounded-[16px] bg-[rgba(124,58,237,0.15)] border border-[rgba(124,58,237,0.2)] flex items-center justify-center text-3xl">
+              {/* Logo hero */}
+              <div className="w-full h-52 bg-[rgba(124,58,237,0.1)] border-b border-[rgba(124,58,237,0.15)] flex items-center justify-center">
                 {logo ? (
-                  <img src={logo} alt={`${title} logo`} className="w-14 h-14 object-contain drop-shadow-[0_0_10px_rgba(212,175,55,0.35)]" />
+                  <img src={logo} alt={`${title} logo`} className="w-44 h-44 object-contain drop-shadow-[0_0_24px_rgba(212,175,55,0.5)]" />
                 ) : (
-                  icon
+                  <span className="text-6xl">{icon}</span>
                 )}
               </div>
-              <div className="flex-1 min-w-0">
+              {/* Content */}
+              <div className="p-6 sm:p-8">
                 <span className={`inline-block text-[0.68rem] font-bold uppercase tracking-wide px-2.5 py-0.5 rounded-full border mb-3 ${statusClass}`}>{status}</span>
-                <h2 className="font-bold text-[1.1rem] sm:text-[1.3rem] mb-2">{title}</h2>
+                <h2 className="font-bold text-[1.2rem] sm:text-[1.35rem] mb-3">{title}</h2>
                 <p className="text-slate-400 text-[0.87rem] sm:text-[0.9rem] leading-[1.75]">{body}</p>
                 {cta && (
-                  <span className="inline-flex items-center mt-4 text-gold text-[0.88rem] font-semibold border border-[rgba(212,175,55,0.4)] rounded-[8px] px-4 py-2 hover:bg-gold hover:text-navy transition-all duration-200">
+                  <Link href={cta.href} className="inline-flex items-center mt-5 text-gold text-[0.88rem] font-semibold border border-[rgba(212,175,55,0.4)] rounded-[8px] px-4 py-2 hover:bg-gold hover:text-navy transition-all duration-200 no-underline">
                     {cta.label}
-                  </span>
+                  </Link>
                 )}
                 {href && !cta && (
-                  <span className="inline-flex items-center gap-1 text-gold text-[0.82rem] font-semibold mt-3 opacity-60">
+                  <span className="inline-flex items-center gap-1 text-gold text-[0.82rem] font-semibold mt-4 opacity-70">
                     Learn more →
                   </span>
                 )}
