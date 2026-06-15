@@ -17,7 +17,7 @@ const DIVISIONS = [
     cta: null,
   },
   {
-    icon: "✨", logo: null, status: "Coming Soon · Lifestyle",
+    icon: "✨", logo: "/assets/images/una-apparel-logo.png", status: "Coming Soon · Lifestyle",
     statusClass: "bg-[rgba(124,58,237,0.15)] text-purple2 border-[rgba(124,58,237,0.3)]",
     title: "UNA",
     body: "A purpose-driven lifestyle brand built on the belief that what we wear should represent who we are, what we value, and what we aspire to become. Unbound. Noble. Ambitious. UNA is not merely apparel — it is a reflection of identity and a reminder that creativity should remain limitless.",
