@@ -71,11 +71,11 @@ function StatCounter({ target, suffix = "", label }: { target: number | string; 
 }
 
 const DIVISIONS = [
-  { icon: "🤖", tag: "Active", tagClass: "bg-[rgba(212,175,55,0.15)] text-gold border-[rgba(212,175,55,0.3)]", title: "TechUnaVerse AI", body: "AI consulting, workflow automation, knowledge management systems, and digital transformation for growing businesses.", href: "/divisions" },
-  { icon: "🪵", tag: "Active", tagClass: "bg-[rgba(212,175,55,0.15)] text-gold border-[rgba(212,175,55,0.3)]", title: "UNA Studios", body: "Custom woodworking, Greek paddles, laser engraving, Cricut products, personalized gifts, and home décor.", href: "/divisions" },
-  { icon: "✨", tag: "Coming Soon", tagClass: "bg-[rgba(124,58,237,0.15)] text-purple2 border-[rgba(124,58,237,0.3)]", title: "UNA", body: "A purpose-driven lifestyle brand for those who are Unbound, Noble, and Ambitious.", href: "/divisions" },
-  { icon: "🏗️", tag: "Coming Soon", tagClass: "bg-[rgba(124,58,237,0.15)] text-purple2 border-[rgba(124,58,237,0.3)]", title: "BuildUNA", body: "Real estate acquisition, multifamily housing, mixed-use development, and community investment.", href: "/divisions" },
-  { icon: "🎓", tag: "Coming Soon", tagClass: "bg-[rgba(124,58,237,0.15)] text-purple2 border-[rgba(124,58,237,0.3)]", title: "UNA Makers Lab", body: "Nonprofit providing STEM, AI literacy, robotics, coding, and entrepreneurship for underserved youth.", href: "/divisions" },
+  { icon: "🤖", logo: "/assets/images/una-ai-logo.png", tag: "Active", tagClass: "bg-[rgba(212,175,55,0.15)] text-gold border-[rgba(212,175,55,0.3)]", title: "TechUnaVerse AI", body: "AI consulting, workflow automation, knowledge management systems, and digital transformation for growing businesses.", href: "/divisions" },
+  { icon: "🪵", logo: "/assets/images/unastudios-logo.png", tag: "Active", tagClass: "bg-[rgba(212,175,55,0.15)] text-gold border-[rgba(212,175,55,0.3)]", title: "UNA Studios", body: "Custom woodworking, Greek paddles, laser engraving, Cricut products, personalized gifts, and home décor.", href: "/divisions" },
+  { icon: "✨", logo: null, tag: "Coming Soon", tagClass: "bg-[rgba(124,58,237,0.15)] text-purple2 border-[rgba(124,58,237,0.3)]", title: "UNA", body: "A purpose-driven lifestyle brand for those who are Unbound, Noble, and Ambitious.", href: "/divisions" },
+  { icon: "🏗️", logo: "/assets/images/builduna-logo.png", tag: "Coming Soon", tagClass: "bg-[rgba(124,58,237,0.15)] text-purple2 border-[rgba(124,58,237,0.3)]", title: "BuildUNA", body: "Real estate acquisition, multifamily housing, mixed-use development, and community investment.", href: "/divisions" },
+  { icon: "🎓", logo: "/assets/images/makerslab-logo.png", tag: "Coming Soon", tagClass: "bg-[rgba(124,58,237,0.15)] text-purple2 border-[rgba(124,58,237,0.3)]", title: "UNA Makers Lab", body: "Nonprofit providing STEM, AI literacy, robotics, coding, and entrepreneurship for underserved youth.", href: "/divisions" },
 ];
 
 export default function Home() {
@@ -192,13 +192,19 @@ export default function Home() {
           </ScrollReveal>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {DIVISIONS.map(({ icon, tag, tagClass, title, body, href }, i) => (
+            {DIVISIONS.map(({ icon, logo, tag, tagClass, title, body, href }, i) => (
               <ScrollReveal key={title} delay={(Math.min(i + 1, 4)) as 1 | 2 | 3 | 4}>
                 <Link
                   href={href}
                   className="group block bg-glass border border-glass rounded-[20px] p-8 hover:border-[rgba(212,175,55,0.3)] hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(0,0,0,0.3)] transition-all duration-300 no-underline h-full"
                 >
-                  <div className="w-13 h-13 rounded-[14px] bg-[rgba(124,58,237,0.12)] flex items-center justify-center text-2xl mb-5 w-14 h-14">{icon}</div>
+                  <div className="w-14 h-14 rounded-[14px] bg-[rgba(124,58,237,0.12)] flex items-center justify-center text-2xl mb-5">
+                    {logo ? (
+                      <img src={logo} alt={`${title} logo`} className="w-10 h-10 object-contain" />
+                    ) : (
+                      icon
+                    )}
+                  </div>
                   <span className={`inline-block text-[0.68rem] font-bold uppercase tracking-wide px-2.5 py-0.5 rounded-full border mb-3 ${tagClass}`}>{tag}</span>
                   <h3 className="font-bold text-[1.1rem] mb-2 text-white">{title}</h3>
                   <p className="text-slate-400 text-[0.87rem] leading-relaxed">{body}</p>
