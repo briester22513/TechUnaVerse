@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "split:logos": "node scripts/split-logos.mjs",
     "lint": "next lint"
   },
   "dependencies": {

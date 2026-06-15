@@ -35,9 +35,11 @@ export default function Nav() {
       >
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 no-underline">
-          <div className="w-9 h-9 rounded-[10px] bg-gradient-to-br from-purple to-gold flex items-center justify-center font-serif font-black text-lg shadow-[0_0_20px_rgba(124,58,237,0.5)]">
-            T
-          </div>
+          <img
+            src="/assets/images/main-techunaverse-logo.png"
+            alt="TechUnaVerse logo"
+            className="h-10 w-auto object-contain drop-shadow-[0_0_14px_rgba(124,58,237,0.45)]"
+          />
           <span className="font-bold text-[1.05rem] tracking-tight">
             Tech<span className="text-gold">Una</span>Verse
           </span>

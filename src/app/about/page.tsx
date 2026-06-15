@@ -22,15 +22,21 @@ export default function About() {
             Built for the <span className="text-gold">Multidimensional</span> Creator
           </h1>
         </ScrollReveal>
-
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
           {/* Visual card */}
           <ScrollReveal>
             <div className="bg-gradient-to-br from-navy3 to-navy2 border border-gold-dim rounded-[24px] p-10 text-center">
-              {/* Founder avatar */}
-              <div className="w-28 h-28 rounded-full bg-gradient-to-br from-purple to-gold flex items-center justify-center font-serif text-4xl font-black mx-auto mb-4 shadow-[0_8px_30px_rgba(124,58,237,0.45)]">
+              {/* Founder avatar (use profile photo; fallback kept visually identical if needed) */}
+              <img
+                src="/assets/images/bri-profile.jpg"
+                alt="Brionna Una Alexander"
+                className="w-28 h-28 rounded-full object-cover mx-auto mb-4 shadow-[0_8px_30px_rgba(124,58,237,0.45)] border-2 border-transparent"
+              />
+              {/* Fallback initial (kept for easy revert or if you want a JS onError fallback later) */}
+              <div aria-hidden="true" className="w-28 h-28 rounded-full bg-gradient-to-br from-purple to-gold flex items-center justify-center font-serif text-4xl font-black mx-auto mb-4 hidden">
                 B
               </div>
+
               <p className="font-bold text-lg">Brionna Una Alexander</p>
               <p className="text-gold text-[0.82rem] mb-8">Founder & CEO, TechUnaVerse LLC</p>
 
