@@ -8,8 +8,8 @@ const DIVISIONS = [
     statusClass: "bg-[rgba(212,175,55,0.15)] text-gold border-[rgba(212,175,55,0.3)]",
     title: "TechUnaVerse AI",
     body: "We help businesses leverage artificial intelligence and automation to reduce manual work, improve efficiency, and scale operations. Our solutions are intuitive, accessible, and built for real people — not just technologists. Services include AI chatbot development, workflow automation, knowledge base systems, website development, and AI strategy consulting.",
-    href: "/services",
-    cta: { label: "View Services & Pricing →", href: "/services" },
+    href: "/divisions/techunaverse-ai",
+    cta: { label: "Explore TechUnaVerse AI →", href: "/divisions/techunaverse-ai" },
   },
   {
     slug: "una-studios",
@@ -17,8 +17,8 @@ const DIVISIONS = [
     statusClass: "bg-[rgba(212,175,55,0.15)] text-gold border-[rgba(212,175,55,0.3)]",
     title: "UNA Studios",
     body: "The creative workshop of the TechUnaVerse ecosystem. UNA Studios transforms ideas into physical experiences through craftsmanship, design, and personalization. In a world driven by automation and mass production, there remains tremendous value in products created with intention and attention to detail. Products include custom Greek paddles, wooden wall art, home décor, laser engraved gifts, wedding and event products, and corporate gifts.",
-    href: "/contact",
-    cta: null,
+    href: "/divisions/una-studios",
+    cta: { label: "Explore UNA Studios →", href: "/divisions/una-studios" },
   },
   {
     slug: "una",
@@ -26,8 +26,8 @@ const DIVISIONS = [
     statusClass: "bg-[rgba(124,58,237,0.15)] text-purple2 border-[rgba(124,58,237,0.3)]",
     title: "UNA",
     body: "A purpose-driven lifestyle brand built on the belief that what we wear should represent who we are, what we value, and what we aspire to become. Unbound. Noble. Ambitious. UNA is not merely apparel — it is a reflection of identity and a reminder that creativity should remain limitless.",
-    href: null,
-    cta: null,
+    href: "/divisions/una",
+    cta: { label: "Explore UNA →", href: "/divisions/una" },
   },
   {
     slug: "builduna",
@@ -35,8 +35,8 @@ const DIVISIONS = [
     statusClass: "bg-[rgba(124,58,237,0.15)] text-purple2 border-[rgba(124,58,237,0.3)]",
     title: "BuildUNA Legacy Development",
     body: "Real estate is one of the most powerful tools for creating generational wealth and strengthening communities. BuildUNA exists not simply to acquire property, but to create opportunities — through responsible investment, community-centered planning, residential development, multifamily housing, mixed-use projects, and long-term investment strategies.",
-    href: null,
-    cta: null,
+    href: "/divisions/builduna",
+    cta: { label: "Explore BuildUNA →", href: "/divisions/builduna" },
   },
   {
     slug: "una-makers-lab",
@@ -44,8 +44,8 @@ const DIVISIONS = [
     statusClass: "bg-[rgba(124,58,237,0.15)] text-purple2 border-[rgba(124,58,237,0.3)]",
     title: "UNA Makers Lab Foundation",
     body: "Talent is universal, but opportunity is not. The Foundation provides educational experiences in coding, robotics, AI, electronics, woodworking, entrepreneurship, and financial literacy for students in underserved communities. The goal is not simply to teach technical skills — it is to build confidence and help the next generation believe they are capable of creating solutions and launching businesses.",
-    href: null,
-    cta: null,
+    href: "/divisions/una-makers-lab",
+    cta: { label: "Explore UNA Makers Lab →", href: "/divisions/una-makers-lab" },
   },
 ];
 
