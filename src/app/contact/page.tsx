@@ -1,5 +1,6 @@
 "use client";
 import ScrollReveal from "@/components/ScrollReveal";
+import GoogleCalendarButton from "@/components/GoogleCalendarButton";
 
 export default function Contact() {
   function handleSubmit(e: React.FormEvent) {
@@ -50,13 +51,8 @@ export default function Contact() {
 
           <div className="mt-5 bg-[rgba(212,175,55,0.06)] border border-[rgba(212,175,55,0.2)] rounded-[14px] p-5">
             <p className="text-gold2 text-[0.85rem] font-bold mb-2">📅 Schedule a Free 15-Min Call</p>
-            <p className="text-slate-400 text-[0.86rem] leading-relaxed mb-3">Just want to ask a quick question? We offer free 15-minute intro calls.</p>
-            <a
-              href="mailto:admin@techunaverse.com?subject=Free 15-Min Call Request"
-              className="inline-block text-gold text-[0.86rem] font-semibold border border-[rgba(212,175,55,0.4)] rounded-[8px] px-4 py-2 hover:bg-gold hover:text-navy transition-all duration-200 no-underline"
-            >
-              Request a Call →
-            </a>
+            <p className="text-slate-400 text-[0.86rem] leading-relaxed mb-3">Just want to ask a quick question? We offer free 15-minute intro calls — pick a time that works for you.</p>
+            <GoogleCalendarButton />
           </div>
         </ScrollReveal>
 
