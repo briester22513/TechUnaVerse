@@ -4,6 +4,31 @@ import Link from "next/link";
 import { useState } from "react";
 import ScrollReveal from "@/components/ScrollReveal";
 
+const SERVICES = [
+  {
+    number: "01",
+    title: "Brand Identity Design",
+    description:
+      "Logo suite, color system, typography, brand voice guidelines, and the visual language your label needs to stand out on shelves and screens. You walk away with a production-ready brand kit.",
+    deliverables: ["Primary + secondary logos", "Color palette & usage rules", "Typography system", "Brand guidelines PDF", "Hang tag & label mockups"],
+  },
+  {
+    number: "02",
+    title: "Tech Pack Creation",
+    description:
+      "The exact technical specification documents manufacturers need to produce your garments correctly — the same format used by professional apparel brands. One bad spec sheet costs you thousands. We get it right.",
+    deliverables: ["Flat technical sketches", "Measurement spec sheets", "Material & trim callouts", "Construction & stitch details", "Colorway breakdowns", "Label & packaging specs"],
+  },
+  {
+    number: "03",
+    title: "Full Brand Launch Package",
+    description:
+      "Everything in Brand Identity + Tech Pack, combined into a single production-ready deliverable. Built for founders who are serious about going from concept to manufacturer.",
+    deliverables: ["Complete brand identity kit", "Tech packs for up to 3 styles", "Manufacturer-ready file package", "Revision rounds included", "Priority turnaround"],
+    featured: true,
+  },
+];
+
 const PILLARS = [
   { letter: "U", word: "Unbound", line: "Creativity without ceilings. Identity without apology." },
   { letter: "N", word: "Noble", line: "Carry yourself with intention. Lead with integrity." },
@@ -112,6 +137,71 @@ export default function UnaApparel() {
               ambition is not arrogance, and that staying true to yourself is the
               boldest statement of all.
             </p>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      {/* Services */}
+      <section className="px-6 lg:px-10 py-28 border-t border-[rgba(245,245,240,0.08)]">
+        <div className="max-w-5xl mx-auto">
+          <ScrollReveal>
+            <span className="text-[0.7rem] uppercase tracking-[0.3em] text-[#C9A84C]">Available Now</span>
+            <h2 className="mt-4 text-[clamp(2rem,5vw,3.2rem)] font-black leading-[1.1] tracking-[-0.01em] uppercase">
+              Build Your Brand.<br />
+              <span className="text-[#8A8A82]">Launch Your Line.</span>
+            </h2>
+            <p className="mt-6 max-w-[520px] text-[1rem] leading-[1.85] text-[#B8B8B0]">
+              While UNA&apos;s own collection is on the way, we&apos;re opening our process to other founders.
+              If you have an apparel concept, we&apos;ll give you the same brand design and manufacturer-ready
+              tech packs we create for ourselves.
+            </p>
+          </ScrollReveal>
+
+          <div className="mt-16 flex flex-col gap-0">
+            {SERVICES.map((svc, i) => (
+              <ScrollReveal key={svc.number} delay={(Math.min(i + 1, 3)) as 1 | 2 | 3}>
+                <div className={`relative border-t border-[rgba(245,245,240,0.08)] p-10 flex flex-col lg:flex-row gap-10 ${svc.featured ? "bg-[rgba(201,168,76,0.04)]" : ""}`}>
+                  {svc.featured && (
+                    <div className="absolute top-5 right-6 text-[0.62rem] uppercase tracking-[0.25em] text-[#0A0A0A] bg-[#C9A84C] px-3 py-1 font-bold">
+                      Most Popular
+                    </div>
+                  )}
+                  {/* Number + Title */}
+                  <div className="lg:w-72 flex-shrink-0">
+                    <span className="text-[0.65rem] uppercase tracking-[0.3em] text-[#4A4A42]">{svc.number}</span>
+                    <h3 className="mt-2 text-[1.4rem] font-black uppercase tracking-tight leading-tight">{svc.title}</h3>
+                  </div>
+                  {/* Description + Deliverables */}
+                  <div className="flex-1 min-w-0">
+                    <p className="text-[0.95rem] leading-[1.85] text-[#B8B8B0] mb-8">{svc.description}</p>
+                    <ul className="flex flex-col gap-2">
+                      {svc.deliverables.map((d) => (
+                        <li key={d} className="flex items-start gap-3 text-[0.88rem] text-[#8A8A82]">
+                          <span className="text-[#C9A84C] mt-0.5 flex-shrink-0">—</span>
+                          {d}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </ScrollReveal>
+            ))}
+            {/* Border bottom */}
+            <div className="border-t border-[rgba(245,245,240,0.08)]" />
+          </div>
+
+          <ScrollReveal>
+            <div className="mt-14 flex flex-col sm:flex-row gap-4 items-start">
+              <Link
+                href="/contact"
+                className="inline-flex items-center gap-2 bg-[#C9A84C] text-[#0A0A0A] uppercase tracking-wider text-[0.82rem] font-black px-10 py-4 hover:brightness-110 transition-all no-underline"
+              >
+                Start Your Brand →
+              </Link>
+              <p className="text-[0.8rem] text-[#6A6A62] self-center leading-relaxed max-w-[320px]">
+                Every project starts with a free discovery call. Pricing is scoped per project.
+              </p>
+            </div>
           </ScrollReveal>
         </div>
       </section>
