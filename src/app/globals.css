@@ -64,10 +64,21 @@
   }
 }
 
-/* Stars animation */
+/* Legacy twinkle (kept for any residual usage) */
 @keyframes twinkle {
   0%, 100% { opacity: 0.15; }
   50%       { opacity: 0.7; }
+}
+
+/* 3D universe — page body blends with WebGL canvas */
+@keyframes universe-glow {
+  0%, 100% { opacity: 0.6; }
+  50%       { opacity: 1; }
+}
+
+@keyframes orbit-pulse {
+  0%, 100% { box-shadow: 0 0 12px 2px rgba(212,175,55,0.3); }
+  50%       { box-shadow: 0 0 28px 6px rgba(212,175,55,0.6); }
 }
 
 /* Typing cursor */

@@ -4,7 +4,7 @@ import "./globals.css";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import FloatCTA from "@/components/FloatCTA";
-import Stars from "@/components/Stars";
+import UniverseCanvas from "@/components/UniverseCanvas";
 import TyChatbot from "@/components/TyChatbot";
 
 const inter = Inter({
@@ -31,7 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
       <body className="font-sans bg-navy text-white min-h-screen">
-        <Stars />
+        <UniverseCanvas />
         {/* Site-wide logo watermark */}
         <div aria-hidden="true" className="fixed inset-0 z-0 flex items-center justify-center pointer-events-none overflow-hidden">
           <img
