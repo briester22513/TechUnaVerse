@@ -143,18 +143,28 @@ GUIDELINES:
 }
 
 // ─── Handler ──────────────────────────────────────────────────────────────────
+const CORS_HEADERS = {
+  "Content-Type": "application/json",
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "Content-Type",
+  "Access-Control-Allow-Methods": "POST, OPTIONS",
+};
+
 exports.handler = async function (event) {
+  if (event.httpMethod === "OPTIONS") {
+    return { statusCode: 200, headers: CORS_HEADERS, body: "" };
+  }
   if (event.httpMethod !== "POST") {
-    return { statusCode: 405, body: "Method Not Allowed" };
+    return { statusCode: 405, headers: CORS_HEADERS, body: JSON.stringify({ error: "Method Not Allowed" }) };
   }
 
   try {
     if (!process.env.ANTHROPIC_API_KEY) {
       return {
-        statusCode: 500,
-        headers: { "Content-Type": "application/json" },
+        statusCode: 503,
+        headers: CORS_HEADERS,
         body: JSON.stringify({
-          error: "Chat is not configured yet. Please contact us at bri@techunaverse.com",
+          error: "Nova is still being set up. Please contact us at bri@techunaverse.com",
         }),
       };
     }
@@ -191,7 +201,8 @@ exports.handler = async function (event) {
     });
 
     if (!response.ok) {
-      throw new Error(`Anthropic API error: ${response.status}`);
+      const errBody = await response.text().catch(() => "");
+      throw new Error(`Anthropic API error ${response.status}: ${errBody}`);
     }
 
     const data = await response.json();
@@ -201,13 +212,13 @@ exports.handler = async function (event) {
 
     return {
       statusCode: 200,
-      headers: { "Content-Type": "application/json" },
+      headers: CORS_HEADERS,
       body: JSON.stringify({ reply }),
     };
   } catch (err) {
     return {
       statusCode: 500,
-      headers: { "Content-Type": "application/json" },
+      headers: CORS_HEADERS,
       body: JSON.stringify({
         error: "Something went wrong. Please reach out at bri@techunaverse.com",
       }),

@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import ScrollReveal from "@/components/ScrollReveal";
@@ -41,40 +41,6 @@ function TypingHero() {
   );
 }
 
-function StatCounter({ target, suffix = "", label }: { target: number | string; suffix?: string; label: string }) {
-  const [val, setVal] = useState(0);
-  const ref = useRef<HTMLDivElement>(null);
-  const done = useRef(false);
-
-  useEffect(() => {
-    if (typeof target !== "number") return;
-    const el = ref.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting && !done.current) {
-        done.current = true;
-        let start = 0;
-        const step = Math.ceil(target / 60);
-        const timer = setInterval(() => {
-          start = Math.min(start + step, target);
-          setVal(start);
-          if (start >= target) clearInterval(timer);
-        }, 25);
-      }
-    }, { threshold: 0.5 });
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, [target]);
-
-  return (
-    <div ref={ref} className="text-center flex-1 min-w-[130px] py-8 px-4 border-r border-gold-dim last:border-r-0">
-      <span className="font-serif text-[2.4rem] font-bold text-gold block">
-        {typeof target === "number" ? val + suffix : target}
-      </span>
-      <span className="text-slate-400 text-[0.8rem] mt-1 block">{label}</span>
-    </div>
-  );
-}
 
 const DIVISIONS = [
   { icon: "🤖", logo: "/assets/images/una-ai-logo.png", tag: "Active", tagClass: "bg-[rgba(212,175,55,0.15)] text-gold border-[rgba(212,175,55,0.3)]", title: "TechUnaVerse AI", body: "AI consulting, workflow automation, knowledge management systems, and digital transformation for growing businesses.", href: "/divisions#techunaverse-ai" },
@@ -110,22 +76,22 @@ export default function Home() {
           <TypingHero />
 
           <p className="text-slate-400 text-[clamp(1rem,2vw,1.15rem)] max-w-[560px] mx-auto mt-5 mb-8 leading-[1.75]">
-            TechUnaVerse is an ecosystem of brands, tools, and experiences designed to empower
-            creators, builders, and entrepreneurs to shape their futures.
+            AI automation, custom websites, and business systems built for small businesses, real estate teams,
+            nonprofits, and local service providers — so you can stop doing everything manually.
           </p>
 
           <div className="flex gap-4 justify-center flex-wrap mb-8">
             <Link
-              href="/services"
+              href="/contact"
               className="inline-flex items-center px-7 py-3.5 bg-gradient-to-r from-purple to-purple2 text-white rounded-[10px] font-semibold shadow-[0_4px_20px_rgba(124,58,237,0.4)] hover:shadow-[0_8px_30px_rgba(124,58,237,0.55)] hover:-translate-y-0.5 transition-all duration-200 no-underline"
             >
-              Explore Services
+              Book a Free AI Fit Call
             </Link>
             <Link
-              href="/about"
+              href="/work"
               className="inline-flex items-center px-7 py-3.5 border-[1.5px] border-[rgba(212,175,55,0.5)] text-gold rounded-[10px] font-semibold hover:bg-gold hover:text-navy transition-all duration-200 no-underline"
             >
-              Our Story
+              See Sample Work
             </Link>
           </div>
 
@@ -149,13 +115,53 @@ export default function Home() {
       {/* ── 3D UNIVERSE JOURNEY ── */}
       <UniverseJourneyCanvas />
 
-      {/* ── STATS ── */}
+      {/* ── WHO THIS IS FOR ── */}
+      <section className="py-16 px-6 lg:px-10">
+        <div className="max-w-5xl mx-auto">
+          <ScrollReveal className="text-center mb-10">
+            <span className="text-[0.75rem] font-bold uppercase tracking-widest text-purple2">Built For</span>
+            <h2 className="font-serif text-[clamp(2rem,4.5vw,2.8rem)] font-black leading-tight mt-2">
+              Who This Is <span className="text-gold">For</span>
+            </h2>
+            <p className="text-slate-400 max-w-[480px] mx-auto mt-3 text-[0.95rem] leading-relaxed">
+              If any of these sound like you, you&apos;re in the right place.
+            </p>
+          </ScrollReveal>
+          <ScrollReveal>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {[
+                { icon: "🏪", title: "Small Business Owners", desc: "Doing too much manually — scheduling, follow-ups, lead tracking. You need systems that work while you sleep." },
+                { icon: "🏠", title: "Real Estate Teams", desc: "Need lead gen, automated follow-up, and a professional web presence that actually converts visitors into clients." },
+                { icon: "🤝", title: "Nonprofits & Organizations", desc: "Ready for a professional online presence with donation flows, volunteer tools, and outreach automation." },
+                { icon: "🎯", title: "Coaches & Creators", desc: "Building a personal brand or client business and need systems that scale without adding overhead." },
+                { icon: "🔧", title: "Local Service Providers", desc: "Contractors, consultants, and service businesses that need more leads and less administrative work." },
+                { icon: "🚀", title: "Founders & Startups", desc: "Moving fast and need AI-powered tools, automation, and a web presence that looks enterprise-grade from day one." },
+              ].map(({ icon, title, desc }) => (
+                <div key={title} className="bg-glass border border-glass rounded-[16px] p-5 hover:border-[rgba(212,175,55,0.25)] hover:-translate-y-0.5 transition-all duration-200">
+                  <span className="text-2xl block mb-3">{icon}</span>
+                  <h3 className="font-bold text-[0.95rem] mb-2">{title}</h3>
+                  <p className="text-slate-400 text-[0.83rem] leading-relaxed">{desc}</p>
+                </div>
+              ))}
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      {/* ── TRUST SIGNALS ── */}
       <div className="border-t border-gold-dim border-b border-b-gold-dim overflow-x-auto">
         <div className="flex max-w-5xl mx-auto">
-          <StatCounter target={5}    suffix="+"  label="Active Divisions" />
-          <StatCounter target={"$1M+"}           label="Year 5 Revenue Goal" />
-          <StatCounter target={100}  suffix="K+" label="Lives to Impact" />
-          <StatCounter target={4}                label="Service Packages" />
+          {[
+            { value: "Virginia LLC", label: "Local & Accountable" },
+            { value: "24 hrs", label: "Response Guarantee" },
+            { value: "100%", label: "Founder-Led" },
+            { value: "From $250", label: "Transparent Pricing" },
+          ].map(({ value, label }, i, arr) => (
+            <div key={label} className={`text-center flex-1 min-w-[130px] py-8 px-4 ${i < arr.length - 1 ? "border-r border-gold-dim" : ""}`}>
+              <span className="font-serif text-[1.9rem] font-bold text-gold block leading-tight">{value}</span>
+              <span className="text-slate-400 text-[0.8rem] mt-1.5 block">{label}</span>
+            </div>
+          ))}
         </div>
       </div>
 
@@ -216,6 +222,40 @@ export default function Home() {
                   </span>
                 </Link>
               ))}
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      {/* ── FOUNDER CREDIBILITY ── */}
+      <section className="py-16 px-6 lg:px-10">
+        <div className="max-w-5xl mx-auto">
+          <ScrollReveal>
+            <div className="bg-gradient-to-br from-[rgba(124,58,237,0.1)] to-[rgba(212,175,55,0.06)] border border-[rgba(212,175,55,0.18)] rounded-[24px] p-10 flex flex-col lg:flex-row items-center gap-8">
+              <div
+                className="w-24 h-24 lg:w-28 lg:h-28 rounded-full flex-shrink-0 flex items-center justify-center font-black text-3xl text-white shadow-[0_0_32px_rgba(212,175,55,0.3)]"
+                style={{ background: "linear-gradient(135deg, #7C3AED, #D4AF37)" }}
+              >
+                B
+              </div>
+              <div>
+                <span className="text-[0.72rem] font-bold uppercase tracking-widest text-purple2">Founder &amp; CEO</span>
+                <h2 className="font-serif text-[clamp(1.6rem,3.5vw,2.2rem)] font-black mt-1 mb-3">
+                  Brionna Una Alexander
+                </h2>
+                <p className="text-slate-400 leading-relaxed mb-5 max-w-[520px]">
+                  A technologist, entrepreneur, and advocate based in Virginia. Brionna personally leads every AI
+                  strategy session and consulting engagement — no junior handoffs, no generic playbooks.
+                  Every client gets direct access to the expert.
+                </p>
+                <div className="flex flex-wrap gap-3">
+                  {["Virginia-Based", "Technologist & Entrepreneur", "Direct Access — No Handoffs", "Plain-English Communication"].map((tag) => (
+                    <span key={tag} className="bg-[rgba(212,175,55,0.08)] border border-[rgba(212,175,55,0.2)] text-gold text-[0.75rem] font-semibold px-3 py-1 rounded-full">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
             </div>
           </ScrollReveal>
         </div>

@@ -8,7 +8,7 @@ const links = [
   { href: "/about", label: "About" },
   { href: "/divisions", label: "Divisions" },
   { href: "/services", label: "Services" },
-  { href: "/work", label: "Work" },
+  { href: "/work", label: "Sample Solutions" },
   { href: "/resources", label: "Resources" },
   { href: "/contact", label: "Contact" },
 ];
@@ -69,7 +69,7 @@ export default function Nav() {
           href="/contact"
           className="hidden lg:inline-flex items-center px-5 py-2 rounded-[8px] bg-gradient-to-r from-purple to-purple2 text-white text-[0.87rem] font-semibold shadow-[0_4px_15px_rgba(124,58,237,0.35)] hover:shadow-[0_6px_24px_rgba(124,58,237,0.5)] hover:-translate-y-px transition-all duration-200 no-underline"
         >
-          Work With Us
+          Book a Free Call
         </Link>
 
         {/* Hamburger */}
@@ -105,7 +105,7 @@ export default function Nav() {
           href="/contact"
           className="mt-3 text-center py-3 rounded-[8px] bg-gradient-to-r from-purple to-purple2 text-white font-semibold no-underline"
         >
-          Work With Us
+          Book a Free Call
         </Link>
       </div>
     </>
