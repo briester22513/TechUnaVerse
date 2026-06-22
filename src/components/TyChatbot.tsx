@@ -94,44 +94,35 @@ function renderInline(text: string) {
 }
 
 function renderContent(text: string) {
-  const lines = text.split("\n");
-  const nodes: React.ReactNode[] = [];
-  const listBuffer: React.ReactNode[] = [];
+  // Split on blank lines to get paragraphs, then handle any remaining bullets within each
+  const paragraphs = text.split(/\n\s*\n/).map(p => p.trim()).filter(Boolean);
 
-  const flushList = () => {
-    if (listBuffer.length) {
-      nodes.push(
-        <ul key={`ul-${nodes.length}`} className="space-y-1 my-1.5">
-          {listBuffer.splice(0)}
-        </ul>
-      );
-    }
-  };
+  return (
+    <div className="space-y-2">
+      {paragraphs.map((para, pi) => {
+        const lines = para.split("\n").map(l => l.trim()).filter(Boolean);
+        const allBullets = lines.every(l => /^(?:[-•*]|\(\d+\)|\d+\.)\s/.test(l));
 
-  lines.forEach((line, i) => {
-    const trimmed = line.trim();
-    if (!trimmed) { flushList(); return; }
+        if (allBullets) {
+          return (
+            <ul key={pi} className="space-y-1">
+              {lines.map((line, li) => {
+                const text = line.replace(/^(?:[-•*]|\(\d+\)|\d+\.)\s+/, "");
+                return (
+                  <li key={li} className="flex gap-2 items-start leading-snug">
+                    <span className="text-[#D4AF37] flex-shrink-0 mt-0.5 text-[0.65rem]">▸</span>
+                    <span>{renderInline(text)}</span>
+                  </li>
+                );
+              })}
+            </ul>
+          );
+        }
 
-    const bulletMatch = /^(?:[-•*]|\(\d+\)|\d+\.)\s+(.*)/.exec(trimmed);
-    if (bulletMatch) {
-      listBuffer.push(
-        <li key={i} className="flex gap-2 items-start leading-snug">
-          <span className="text-[#D4AF37] flex-shrink-0 mt-0.5 text-[0.7rem]">▸</span>
-          <span>{renderInline(bulletMatch[1])}</span>
-        </li>
-      );
-    } else {
-      flushList();
-      nodes.push(
-        <p key={i} className={nodes.length > 0 ? "mt-2" : ""}>
-          {renderInline(trimmed)}
-        </p>
-      );
-    }
-  });
-
-  flushList();
-  return <>{nodes}</>;
+        return <p key={pi} className="leading-relaxed">{renderInline(lines.join(" "))}</p>;
+      })}
+    </div>
+  );
 }
 
 // ── Nova Avatar ────────────────────────────────────────────────────────────────
