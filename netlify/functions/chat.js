@@ -1,4 +1,39 @@
 // ─── RAG Knowledge Base ───────────────────────────────────────────────────────
+const https = require("https");
+
+function callAnthropic(apiKey, payload) {
+  return new Promise((resolve, reject) => {
+    const body = JSON.stringify(payload);
+    const req = https.request(
+      {
+        hostname: "api.anthropic.com",
+        path: "/v1/messages",
+        method: "POST",
+        headers: {
+          "x-api-key": apiKey,
+          "anthropic-version": "2023-06-01",
+          "content-type": "application/json",
+          "content-length": Buffer.byteLength(body),
+        },
+      },
+      (res) => {
+        let raw = "";
+        res.on("data", (chunk) => { raw += chunk; });
+        res.on("end", () => {
+          try {
+            resolve({ ok: res.statusCode >= 200 && res.statusCode < 300, data: JSON.parse(raw) });
+          } catch {
+            reject(new Error(`Non-JSON response (${res.statusCode}): ${raw.slice(0, 200)}`));
+          }
+        });
+      }
+    );
+    req.on("error", reject);
+    req.write(body);
+    req.end();
+  });
+}
+
 // Each chunk has tags (used for weighted retrieval) and content (injected as context).
 const KB = [
   {
@@ -185,27 +220,17 @@ exports.handler = async function (event) {
         ? chunks.map((c) => `[${c.id}]\n${c.content}`).join("\n\n")
         : "No specific knowledge matched. Answer based on general TechUnaVerse context and direct to bri@techunaverse.com for specifics.";
 
-    const response = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: {
-        "x-api-key": process.env.ANTHROPIC_API_KEY,
-        "anthropic-version": "2023-06-01",
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({
-        model: "claude-haiku-4-5-20251001",
-        max_tokens: 512,
-        system: buildSystemPrompt(context),
-        messages: history.slice(-10),
-      }),
+    const { ok, data } = await callAnthropic(process.env.ANTHROPIC_API_KEY, {
+      model: "claude-haiku-4-5-20251001",
+      max_tokens: 512,
+      system: buildSystemPrompt(context),
+      messages: history.slice(-10),
     });
 
-    if (!response.ok) {
-      const errBody = await response.text().catch(() => "");
-      throw new Error(`Anthropic API error ${response.status}: ${errBody}`);
+    if (!ok) {
+      throw new Error(`Anthropic API error: ${JSON.stringify(data)}`);
     }
 
-    const data = await response.json();
     const reply =
       data.content?.[0]?.text ||
       "I'm having a moment — please try again!";
