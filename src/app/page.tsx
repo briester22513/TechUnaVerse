@@ -1,7 +1,13 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import ScrollReveal from "@/components/ScrollReveal";
+
+const UniverseJourneyCanvas = dynamic(
+  () => import("@/components/UniverseJourneyCanvas"),
+  { ssr: false, loading: () => null }
+);
 
 const PHRASES = ["AI Consulting.", "Web Development.", "Business Automation.", "Digital Transformation."];
 
@@ -124,15 +130,24 @@ export default function Home() {
           </div>
 
           {/* Trust strip */}
-          <div className="flex flex-wrap justify-center gap-6">
+          <div className="flex flex-wrap justify-center gap-6 mb-10">
             {["✓ Virginia LLC", "✓ 24-Hour Response", "✓ No-Jargon Guarantee", "✓ 5 Divisions"].map((t) => (
               <span key={t} className="text-[0.82rem] text-slate-400 font-medium">
                 <span className="text-gold2">{t.slice(0, 1)}</span>{t.slice(1)}
               </span>
             ))}
           </div>
+
+          {/* Scroll-to-universe hint */}
+          <div className="flex flex-col items-center gap-2 text-slate-500 text-[0.78rem] tracking-wide">
+            <span>↓ Scroll to explore the universe</span>
+            <div className="w-px h-8 bg-gradient-to-b from-gold/30 to-transparent" />
+          </div>
         </div>
       </section>
+
+      {/* ── 3D UNIVERSE JOURNEY ── */}
+      <UniverseJourneyCanvas />
 
       {/* ── STATS ── */}
       <div className="border-t border-gold-dim border-b border-b-gold-dim overflow-x-auto">
@@ -178,43 +193,31 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── DIVISIONS PREVIEW ── */}
-      <section className="py-4 pb-20 px-6 lg:px-10">
+      {/* ── ECOSYSTEM QUICK LINKS ── */}
+      <section className="py-10 pb-16 px-6 lg:px-10">
         <div className="max-w-6xl mx-auto">
-          <ScrollReveal>
-            <span className="text-[0.75rem] font-bold uppercase tracking-widest text-purple2">Our Ecosystem</span>
-            <h2 className="font-serif text-[clamp(2rem,4.5vw,2.8rem)] font-black leading-tight mt-2 mb-3">
-              One Mission. <span className="text-gold">Many Vehicles.</span>
-            </h2>
-            <p className="text-slate-400 max-w-[580px] leading-[1.8] mb-10">
-              From AI consulting to custom woodworking, real estate to education — every division of TechUnaVerse exists to help people build.
+          <ScrollReveal className="text-center mb-8">
+            <p className="text-slate-400 text-sm">
+              Explore all divisions in detail →
             </p>
           </ScrollReveal>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {DIVISIONS.map(({ icon, logo, tag, tagClass, title, body, href }, i) => (
-              <ScrollReveal key={title} delay={(Math.min(i + 1, 4)) as 1 | 2 | 3 | 4}>
+          <ScrollReveal>
+            <div className="flex flex-wrap justify-center gap-3">
+              {DIVISIONS.map(({ icon, title, href, tagClass, tag }) => (
                 <Link
+                  key={title}
                   href={href}
-                  className="group block bg-glass border border-glass rounded-[20px] p-8 hover:border-[rgba(212,175,55,0.3)] hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(0,0,0,0.3)] transition-all duration-300 no-underline h-full"
+                  className="inline-flex items-center gap-2 bg-glass border border-glass rounded-full px-5 py-2.5 text-sm font-semibold text-white hover:border-[rgba(212,175,55,0.35)] hover:-translate-y-0.5 transition-all duration-200 no-underline"
                 >
-                  <div className="w-full h-36 rounded-[14px] bg-[rgba(124,58,237,0.1)] border border-[rgba(124,58,237,0.15)] flex items-center justify-center mb-5 overflow-hidden">
-                    {logo ? (
-                      <img src={logo} alt={`${title} logo`} className="w-full h-full object-contain p-3 drop-shadow-[0_0_18px_rgba(212,175,55,0.45)]" />
-                    ) : (
-                      <span className="text-4xl">{icon}</span>
-                    )}
-                  </div>
-                  <span className={`inline-block text-[0.68rem] font-bold uppercase tracking-wide px-2.5 py-0.5 rounded-full border mb-3 ${tagClass}`}>{tag}</span>
-                  <h3 className="font-bold text-[1.1rem] mb-2 text-white">{title}</h3>
-                  <p className="text-slate-400 text-[0.87rem] leading-relaxed">{body}</p>
-                  <span className="inline-flex items-center gap-1 text-gold text-[0.82rem] font-semibold mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    Learn more →
+                  <span>{icon}</span>
+                  {title}
+                  <span className={`text-[0.6rem] font-bold uppercase tracking-wide px-1.5 py-0.5 rounded-full border ${tagClass}`}>
+                    {tag}
                   </span>
                 </Link>
-              </ScrollReveal>
-            ))}
-          </div>
+              ))}
+            </div>
+          </ScrollReveal>
         </div>
       </section>
 
