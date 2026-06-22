@@ -71,7 +71,10 @@ export default function TyChatbot() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ messages: next }),
       });
-      const data = await res.json();
+
+      let data: { reply?: string; error?: string } = {};
+      try { data = await res.json(); } catch { /* non-JSON response */ }
+
       setMessages((m) => [
         ...m,
         {
@@ -79,7 +82,9 @@ export default function TyChatbot() {
           content:
             data.reply ||
             data.error ||
-            "Something went wrong — please try again.",
+            (res.ok
+              ? "Something went wrong — please try again."
+              : "Nova isn't available right now. Reach out at bri@techunaverse.com"),
         },
       ]);
     } catch {
@@ -88,7 +93,7 @@ export default function TyChatbot() {
         {
           role: "assistant",
           content:
-            "Connection issue. Please try again or reach out at bri@techunaverse.com",
+            "Having trouble connecting. Please try again or reach out at bri@techunaverse.com",
         },
       ]);
     } finally {
