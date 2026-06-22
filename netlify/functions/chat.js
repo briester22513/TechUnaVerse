@@ -39,7 +39,7 @@ const KB = [
   {
     id: "company-overview",
     tags: ["what is techunaverse", "about", "company", "who", "overview", "virginia", "llc", "brionna", "ecosystem"],
-    content: `TechUnaVerse LLC is a multi-division innovation ecosystem founded by Brionna Una Alexander, based in Virginia. It empowers creators, builders, and entrepreneurs through AI consulting, custom craftsmanship, lifestyle branding, real estate development, and STEM education. Mission: "Building Legacies Through Innovation." Website: techunaverse.com | Email: bri@techunaverse.com`,
+    content: `TechUnaVerse LLC is a multi-division innovation ecosystem founded by Brionna Una Alexander, based in Virginia. It empowers creators, builders, and entrepreneurs through AI consulting, custom craftsmanship, lifestyle branding, real estate development, and STEM education. Mission: "Building Legacies Through Innovation." Website: techunaverse.com | Email: admin@techunaverse.com`,
   },
   {
     id: "founder",
@@ -84,7 +84,7 @@ const KB = [
   {
     id: "una-studios",
     tags: ["una studios", "woodworking", "craft", "handmade", "custom", "artisan", "studios", "paddle", "engrave", "gift", "wood", "decor"],
-    content: `UNA Studios is an active division specializing in custom handcrafted products: custom engraved Greek organization paddles, laser engraved gifts and home décor, wooden wall art and signage, wedding and event products, and corporate branded items. Pricing is project-based — get a quote by contacting bri@techunaverse.com with your project details (type, quantity, timeline, and any design references).`,
+    content: `UNA Studios is an active division specializing in custom handcrafted products: custom engraved Greek organization paddles, laser engraved gifts and home décor, wooden wall art and signage, wedding and event products, and corporate branded items. Pricing is project-based — get a quote by contacting admin@techunaverse.com with your project details (type, quantity, timeline, and any design references).`,
   },
   {
     id: "una-apparel",
@@ -109,12 +109,12 @@ const KB = [
   {
     id: "get-started",
     tags: ["get started", "how to start", "contact", "book", "begin", "work with", "hire", "next step", "ready"],
-    content: `To get started with TechUnaVerse: Visit techunaverse.com/contact and submit a project inquiry or book a Discovery Call. For UNA Studios, email bri@techunaverse.com with your project details. For AI services, the $250 AI Strategy Session is the fastest way to get a personalized roadmap. All inquiries get a response within 24 hours.`,
+    content: `To get started with TechUnaVerse: Visit techunaverse.com/contact and submit a project inquiry or book a Discovery Call. For UNA Studios, email admin@techunaverse.com with your project details. For AI services, the $250 AI Strategy Session is the fastest way to get a personalized roadmap. All inquiries get a response within 24 hours.`,
   },
   {
     id: "contact",
     tags: ["contact", "email", "reach out", "phone", "location", "virginia", "where", "bri", "hours"],
-    content: `Contact TechUnaVerse: Email bri@techunaverse.com | Contact form at techunaverse.com/contact | Location: Virginia, USA | Response time: within 24 hours guaranteed. Brionna personally reviews every inquiry.`,
+    content: `Contact TechUnaVerse: Email admin@techunaverse.com | Contact form at techunaverse.com/contact | Location: Virginia, USA | Response time: within 24 hours guaranteed. Brionna personally reviews every inquiry.`,
   },
   {
     id: "why-techunaverse",
@@ -173,7 +173,7 @@ GUIDELINES:
 - Keep responses under 130 words unless detail is genuinely needed
 - Use "we" and "our" when referring to TechUnaVerse
 - End every response with a clear, soft call-to-action (visit /contact, book a session, or invite a follow-up question)
-- If the knowledge above doesn't answer the question, say so honestly and direct them to bri@techunaverse.com
+- If the knowledge above doesn't answer the question, say so honestly and direct them to admin@techunaverse.com
 - For pricing questions, give exact figures from the knowledge — never approximate or hedge on stated prices`;
 }
 
@@ -199,7 +199,7 @@ exports.handler = async function (event) {
         statusCode: 503,
         headers: CORS_HEADERS,
         body: JSON.stringify({
-          error: "Nova is still being set up. Please contact us at bri@techunaverse.com",
+          error: "Nova is still being set up. Please contact us at admin@techunaverse.com",
         }),
       };
     }
@@ -218,7 +218,7 @@ exports.handler = async function (event) {
     const context =
       chunks.length > 0
         ? chunks.map((c) => `[${c.id}]\n${c.content}`).join("\n\n")
-        : "No specific knowledge matched. Answer based on general TechUnaVerse context and direct to bri@techunaverse.com for specifics.";
+        : "No specific knowledge matched. Answer based on general TechUnaVerse context and direct to admin@techunaverse.com for specifics.";
 
     const { ok, data } = await callAnthropic(process.env.ANTHROPIC_API_KEY, {
       model: "claude-haiku-4-5-20251001",
@@ -245,7 +245,7 @@ exports.handler = async function (event) {
       statusCode: 500,
       headers: CORS_HEADERS,
       body: JSON.stringify({
-        error: "Something went wrong. Please reach out at bri@techunaverse.com",
+        error: "Something went wrong. Please reach out at admin@techunaverse.com",
       }),
     };
   }
