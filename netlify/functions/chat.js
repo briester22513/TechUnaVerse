@@ -189,6 +189,23 @@ exports.handler = async function (event) {
   if (event.httpMethod === "OPTIONS") {
     return { statusCode: 200, headers: CORS_HEADERS, body: "" };
   }
+
+  // Diagnostic: visit /.netlify/functions/chat in a browser to check status
+  if (event.httpMethod === "GET") {
+    return {
+      statusCode: 200,
+      headers: CORS_HEADERS,
+      body: JSON.stringify({
+        status: "function reachable",
+        node: process.version,
+        hasApiKey: !!process.env.ANTHROPIC_API_KEY,
+        keyPrefix: process.env.ANTHROPIC_API_KEY
+          ? process.env.ANTHROPIC_API_KEY.slice(0, 10) + "..."
+          : "not set",
+      }),
+    };
+  }
+
   if (event.httpMethod !== "POST") {
     return { statusCode: 405, headers: CORS_HEADERS, body: JSON.stringify({ error: "Method Not Allowed" }) };
   }
