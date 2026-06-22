@@ -84,7 +84,7 @@ export default function TyChatbot() {
             data.error ||
             (res.ok
               ? "Something went wrong — please try again."
-              : "Nova isn't available right now. Reach out at bri@techunaverse.com"),
+              : "Nova isn't available right now. Reach out at admin@techunaverse.com"),
         },
       ]);
     } catch {
@@ -93,7 +93,7 @@ export default function TyChatbot() {
         {
           role: "assistant",
           content:
-            "Having trouble connecting. Please try again or reach out at bri@techunaverse.com",
+            "Having trouble connecting. Please try again or reach out at admin@techunaverse.com",
         },
       ]);
     } finally {
