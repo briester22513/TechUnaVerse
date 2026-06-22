@@ -1,7 +1,5 @@
 import type { NextConfig } from "next";
 
-const nextConfig: NextConfig = {
-  output: "export",   // generates a static /out folder — no server needed
-};
+const nextConfig: NextConfig = {};
 
 export default nextConfig;
