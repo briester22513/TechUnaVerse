@@ -1,9 +1,14 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
+import Link from "next/link";
+
+interface Action { label: string; href: string }
 
 interface Message {
   role: "user" | "assistant";
   content: string;
+  actions?: Action[];
+  followUps?: string[];
 }
 
 const GREETING: Message = {
@@ -12,19 +17,118 @@ const GREETING: Message = {
     "Hey! I'm Nova, TechUnaVerse's AI guide. I know every service, package, and division inside and out. What would you like to explore?",
 };
 
-const SUGGESTIONS = [
+const INITIAL_SUGGESTIONS = [
   "What AI services do you offer?",
   "How much does a KnowledgeBot cost?",
   "Tell me about UNA Studios",
   "How do I get started?",
 ];
 
-// Nova avatar — star burst initials on gold-purple gradient
+// ── Helpers ────────────────────────────────────────────────────────────────────
+
+function getActions(content: string): Action[] {
+  const lower = content.toLowerCase();
+  const actions: Action[] = [];
+  if (
+    lower.includes("book") ||
+    lower.includes("discovery call") ||
+    lower.includes("reach out") ||
+    lower.includes("contact") ||
+    lower.includes("inquiry")
+  ) {
+    actions.push({ label: "Book a Free Call →", href: "/contact" });
+  }
+  if (
+    lower.includes("service") ||
+    lower.includes("package") ||
+    lower.includes("pricing") ||
+    lower.includes("$")
+  ) {
+    actions.push({ label: "View All Services →", href: "/services" });
+  }
+  return actions.slice(0, 2);
+}
+
+function getFollowUps(content: string): string[] {
+  const lower = content.toLowerCase();
+  if (lower.includes("knowledgebot") || lower.includes("chatbot") || lower.includes("ai bot")) {
+    return ["What's included in setup?", "How long does it take to build?", "Can it capture leads?"];
+  }
+  if (lower.includes("automation") || lower.includes("workflow")) {
+    return ["What tools do you integrate with?", "What's a good automation use case?", "What does setup look like?"];
+  }
+  if (lower.includes("website") || lower.includes("web development")) {
+    return ["Do you do e-commerce sites?", "What's your design process?", "How long does a site take?"];
+  }
+  if (lower.includes("strategy session") || lower.includes("$250")) {
+    return ["What happens in a strategy session?", "Who leads the session?", "How do I book one?"];
+  }
+  if (lower.includes("digital transformation") || lower.includes("$5,000")) {
+    return ["What's the implementation process?", "How long does it take?", "Who is this best for?"];
+  }
+  if (lower.includes("studios") || lower.includes("paddle") || lower.includes("engraving") || lower.includes("woodwork")) {
+    return ["How do I get a quote?", "What's the turnaround time?", "Do you ship?"];
+  }
+  if (lower.includes("division") || lower.includes("builduna") || lower.includes("makers lab") || lower.includes("una apparel")) {
+    return ["Which divisions are active now?", "Tell me about TechUnaVerse AI", "How do I get updates on coming-soon divisions?"];
+  }
+  if (lower.includes("founder") || lower.includes("brionna")) {
+    return ["What's her background?", "How do I work directly with her?", "What does founder-led mean for my project?"];
+  }
+  return ["What services do you offer?", "What does it cost?", "How do I get started?"];
+}
+
+// ── Markdown renderer ──────────────────────────────────────────────────────────
+
+function renderInline(text: string) {
+  const parts = text.split(/(\*\*[^*]+\*\*|\$[\d,]+(?:\+|-[\d,]+\+?)?)/g);
+  return parts.map((part, i) => {
+    if (part.startsWith("**") && part.endsWith("**")) {
+      return <strong key={i} className="text-white font-semibold">{part.slice(2, -2)}</strong>;
+    }
+    if (/^\$[\d,]/.test(part)) {
+      return <span key={i} className="text-[#D4AF37] font-semibold">{part}</span>;
+    }
+    return part;
+  });
+}
+
+function renderContent(text: string) {
+  // Split on blank lines to get paragraphs, then handle any remaining bullets within each
+  const paragraphs = text.split(/\n\s*\n/).map(p => p.trim()).filter(Boolean);
+
+  return (
+    <div className="space-y-2">
+      {paragraphs.map((para, pi) => {
+        const lines = para.split("\n").map(l => l.trim()).filter(Boolean);
+        const allBullets = lines.every(l => /^(?:[-•*]|\(\d+\)|\d+\.)\s/.test(l));
+
+        if (allBullets) {
+          return (
+            <ul key={pi} className="space-y-1">
+              {lines.map((line, li) => {
+                const text = line.replace(/^(?:[-•*]|\(\d+\)|\d+\.)\s+/, "");
+                return (
+                  <li key={li} className="flex gap-2 items-start leading-snug">
+                    <span className="text-[#D4AF37] flex-shrink-0 mt-0.5 text-[0.65rem]">▸</span>
+                    <span>{renderInline(text)}</span>
+                  </li>
+                );
+              })}
+            </ul>
+          );
+        }
+
+        return <p key={pi} className="leading-relaxed">{renderInline(lines.join(" "))}</p>;
+      })}
+    </div>
+  );
+}
+
+// ── Nova Avatar ────────────────────────────────────────────────────────────────
+
 function NovaAvatar({ size = "md" }: { size?: "sm" | "md" }) {
-  const cls =
-    size === "sm"
-      ? "w-6 h-6 text-[0.52rem]"
-      : "w-9 h-9 text-[0.78rem]";
+  const cls = size === "sm" ? "w-6 h-6 text-[0.52rem]" : "w-9 h-9 text-[0.78rem]";
   return (
     <div
       className={`${cls} rounded-full flex items-center justify-center font-black text-white flex-shrink-0`}
@@ -38,12 +142,14 @@ function NovaAvatar({ size = "md" }: { size?: "sm" | "md" }) {
   );
 }
 
+// ── Main Component ─────────────────────────────────────────────────────────────
+
 export default function TyChatbot() {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([GREETING]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [showSuggestions, setShowSuggestions] = useState(true);
+  const [showInitial, setShowInitial] = useState(true);
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -59,8 +165,9 @@ export default function TyChatbot() {
     const msg = (text ?? input).trim();
     if (!msg || loading) return;
 
-    setShowSuggestions(false);
-    const next: Message[] = [...messages, { role: "user", content: msg }];
+    setShowInitial(false);
+    const userMsg: Message = { role: "user", content: msg };
+    const next = [...messages, userMsg];
     setMessages(next);
     setInput("");
     setLoading(true);
@@ -73,33 +180,35 @@ export default function TyChatbot() {
       });
 
       let data: { reply?: string; error?: string } = {};
-      try { data = await res.json(); } catch { /* non-JSON response */ }
+      try { data = await res.json(); } catch { /* non-JSON */ }
 
-      setMessages((m) => [
-        ...m,
-        {
-          role: "assistant",
-          content:
-            data.reply ||
-            data.error ||
-            (res.ok
-              ? "Something went wrong — please try again."
-              : "Nova isn't available right now. Reach out at admin@techunaverse.com"),
-        },
-      ]);
+      const content =
+        data.reply ||
+        data.error ||
+        (res.ok ? "Something went wrong — please try again." : "Nova isn't available right now. Reach out at admin@techunaverse.com");
+
+      const assistantMsg: Message = {
+        role: "assistant",
+        content,
+        actions: data.reply ? getActions(content) : [],
+        followUps: data.reply ? getFollowUps(content) : [],
+      };
+
+      setMessages((m) => [...m, assistantMsg]);
     } catch {
       setMessages((m) => [
         ...m,
         {
           role: "assistant",
-          content:
-            "Having trouble connecting. Please try again or reach out at admin@techunaverse.com",
+          content: "Having trouble connecting. Please try again or reach out at admin@techunaverse.com",
         },
       ]);
     } finally {
       setLoading(false);
     }
   }
+
+  const lastAssistantIdx = [...messages].map((m, i) => m.role === "assistant" ? i : -1).filter(i => i >= 0).at(-1);
 
   return (
     <>
@@ -110,7 +219,7 @@ export default function TyChatbot() {
           style={{
             bottom: "6.5rem",
             width: "min(380px, calc(100vw - 2.5rem))",
-            height: "min(520px, calc(100vh - 10rem))",
+            height: "min(560px, calc(100vh - 10rem))",
           }}
         >
           {/* Header */}
@@ -118,14 +227,10 @@ export default function TyChatbot() {
             <div className="flex items-center gap-3">
               <NovaAvatar size="md" />
               <div>
-                <p className="font-bold text-[0.9rem] text-white leading-tight">
-                  Nova
-                </p>
+                <p className="font-bold text-[0.9rem] text-white leading-tight">Nova</p>
                 <div className="flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 flex-shrink-0 animate-pulse" />
-                  <p className="text-[0.68rem] text-slate-400">
-                    TechUnaVerse Guide · Online
-                  </p>
+                  <p className="text-[0.68rem] text-slate-400">TechUnaVerse Guide · Online</p>
                 </div>
               </div>
             </div>
@@ -140,36 +245,73 @@ export default function TyChatbot() {
 
           {/* Messages */}
           <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-[#080C22]">
-            {messages.map((msg, i) => (
-              <div
-                key={i}
-                className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
-              >
-                {msg.role === "assistant" && (
-                  <div className="mr-2 mt-1">
-                    <NovaAvatar size="sm" />
+            {messages.map((msg, i) => {
+              const isLastAssistant = i === lastAssistantIdx;
+              return (
+                <div key={i}>
+                  <div className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
+                    {msg.role === "assistant" && (
+                      <div className="mr-2 mt-1 flex-shrink-0">
+                        <NovaAvatar size="sm" />
+                      </div>
+                    )}
+                    <div
+                      className={`max-w-[82%] rounded-[14px] px-4 py-2.5 text-[0.84rem] leading-relaxed ${
+                        msg.role === "user"
+                          ? "bg-gradient-to-br from-[#7C3AED] to-[#9D6DF5] text-white rounded-tr-[4px]"
+                          : "bg-[rgba(255,255,255,0.05)] border border-[rgba(212,175,55,0.12)] text-slate-200 rounded-tl-[4px]"
+                      }`}
+                    >
+                      {msg.role === "assistant" ? renderContent(msg.content) : msg.content}
+                    </div>
                   </div>
-                )}
-                <div
-                  className={`max-w-[80%] rounded-[14px] px-4 py-2.5 text-[0.84rem] leading-relaxed ${
-                    msg.role === "user"
-                      ? "bg-gradient-to-br from-[#7C3AED] to-[#9D6DF5] text-white rounded-tr-[4px]"
-                      : "bg-[rgba(255,255,255,0.05)] border border-[rgba(212,175,55,0.12)] text-slate-200 rounded-tl-[4px]"
-                  }`}
-                >
-                  {msg.content}
-                </div>
-              </div>
-            ))}
 
-            {/* Suggested questions — shown only after greeting, before first user message */}
-            {showSuggestions && messages.length === 1 && (
+                  {/* Action buttons + follow-up chips — only on last assistant message */}
+                  {msg.role === "assistant" && isLastAssistant && !loading && (
+                    <div className="pl-8 mt-2 space-y-2">
+                      {/* CTA action buttons */}
+                      {msg.actions && msg.actions.length > 0 && (
+                        <div className="flex flex-wrap gap-2">
+                          {msg.actions.map((a) => (
+                            <Link
+                              key={a.href}
+                              href={a.href}
+                              onClick={() => setOpen(false)}
+                              className="text-[0.75rem] px-3.5 py-1.5 rounded-[8px] bg-gradient-to-r from-[#D4AF37] to-[#B8960A] text-[#080C22] font-bold hover:brightness-110 transition-all duration-200 no-underline"
+                            >
+                              {a.label}
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                      {/* Follow-up suggestion chips */}
+                      {msg.followUps && msg.followUps.length > 0 && (
+                        <div className="flex flex-wrap gap-1.5">
+                          {msg.followUps.map((s) => (
+                            <button
+                              key={s}
+                              onClick={() => send(s)}
+                              className="text-[0.72rem] px-2.5 py-1 rounded-full border border-[rgba(212,175,55,0.2)] text-slate-400 hover:border-[rgba(212,175,55,0.55)] hover:text-slate-200 transition-all duration-200 text-left"
+                            >
+                              {s}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+
+            {/* Initial suggestions — shown only before first user message */}
+            {showInitial && messages.length === 1 && (
               <div className="flex flex-wrap gap-2 pt-1 pl-8">
-                {SUGGESTIONS.map((s) => (
+                {INITIAL_SUGGESTIONS.map((s) => (
                   <button
                     key={s}
                     onClick={() => send(s)}
-                    className="text-[0.75rem] px-3 py-1.5 rounded-full border border-[rgba(212,175,55,0.25)] text-slate-300 hover:border-[rgba(212,175,55,0.6)] hover:text-gold transition-all duration-200 text-left"
+                    className="text-[0.75rem] px-3 py-1.5 rounded-full border border-[rgba(212,175,55,0.25)] text-slate-300 hover:border-[rgba(212,175,55,0.6)] hover:text-white transition-all duration-200 text-left"
                   >
                     {s}
                   </button>

@@ -41,7 +41,7 @@ const KB = [
   {
     id: "strategy-session",
     tags: ["strategy session", "consultation", "90 minute", "250", "call", "book", "roadmap", "1 on 1", "one on one", "advice", "unsure where to start"],
-    content: `AI Strategy Session (90 min) — $250. A one-on-one roadmap call with Brionna Alexander herself. Covers your business goals, current tools, and delivers a clear AI action plan. Ideal if you're unsure where to begin with AI. Includes a written summary of recommendations. Book at techunaverse.com/contact.`,
+    content: `AI Strategy Session (90 min) — $250. A one-on-one roadmap call with Brionna Alexander herself. Covers your business goals, current tools, and delivers a clear AI action plan. Ideal if you're unsure where to begin with AI. Includes a written summary of recommendations. Book directly at https://calendar.app.google/F7pGNirVTiWuG3CM7 or via techunaverse.com/contact.`,
   },
   {
     id: "all-pricing",
@@ -76,7 +76,7 @@ const KB = [
   {
     id: "get-started",
     tags: ["get started", "how to start", "contact", "book", "begin", "work with", "hire", "next step", "ready"],
-    content: `To get started with TechUnaVerse: Visit techunaverse.com/contact and submit a project inquiry or book a Discovery Call. For UNA Studios, email admin@techunaverse.com with your project details. For AI services, the $250 AI Strategy Session is the fastest way to get a personalized roadmap. All inquiries get a response within 24 hours.`,
+    content: `To get started with TechUnaVerse: Book a free discovery call directly at https://calendar.app.google/F7pGNirVTiWuG3CM7, or fill out the contact form at techunaverse.com/contact. For UNA Studios, email admin@techunaverse.com with your project details. For AI services, the $250 AI Strategy Session is the fastest way to get a personalized roadmap. All inquiries get a response within 24 hours.`,
   },
   {
     id: "contact",
@@ -126,13 +126,15 @@ ${context}
 == END KNOWLEDGE ==
 
 GUIDELINES:
-- Be warm, confident, and concise — you represent a premium brand
-- Answer directly using the knowledge above; do not invent services, prices, or details not shown
-- Keep responses under 130 words unless detail is genuinely needed
-- Use "we" and "our" when referring to TechUnaVerse
-- End every response with a clear, soft call-to-action (visit /contact, book a session, or invite a follow-up question)
-- If the knowledge above doesn't answer the question, say so honestly and direct them to admin@techunaverse.com
-- For pricing questions, give exact figures from the knowledge — never approximate or hedge on stated prices`;
+- Write like a warm, knowledgeable human — not a robot. Use natural, conversational sentences.
+- Keep it concise: 2–4 short sentences per response. Never use walls of text.
+- Do NOT use bullet points, numbered lists, or headers unless the user explicitly asks you to list things. Write in flowing sentences instead.
+- Use "we" and "our" when referring to TechUnaVerse.
+- Add a single blank line between distinct thoughts if needed — no more.
+- End with a natural, human call-to-action (not a robotic one). Something like "Want me to walk you through the next step?" or "Happy to help you figure out which fits best."
+- If the knowledge above doesn't cover it, say so naturally and point them to admin@techunaverse.com.
+- For pricing questions, give exact figures from the knowledge — say them naturally in a sentence, not as a list.
+- Never start with "Great question!" or similar filler phrases.`;
 }
 
 // ─── Anthropic HTTP helper ────────────────────────────────────────────────────

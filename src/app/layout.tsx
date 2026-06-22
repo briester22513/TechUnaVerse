@@ -25,6 +25,9 @@ export const metadata: Metadata = {
   description:
     "AI consulting, web development, business automation, and custom creative products. TechUnaVerse is a multi-division ecosystem empowering creators, builders, and entrepreneurs.",
   keywords: ["AI consulting", "web development", "business automation", "TechUnaVerse", "Virginia"],
+  icons: {
+    icon: "/assets/images/main-techunaverse-logo.png",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
