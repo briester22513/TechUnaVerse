@@ -1,26 +1,31 @@
 "use client";
 import { useState } from "react";
-import Link from "next/link";
 import ScrollReveal from "@/components/ScrollReveal";
+
+type Status = "idle" | "loading" | "success" | "error";
 
 const PRODUCTS = [
   {
     icon: "📚", title: "Monthly AI Toolkit", price: "$29", period: "/mo", sub: true, badge: "Most Popular",
+    productId: "toolkit-monthly",
     desc: "A fresh PDF guide every month covering the best AI tools, prompts, and automation strategies for business owners.",
     features: ["Monthly PDF Guide (20–30 pages)", "AI Prompt Template Pack", "Tool-of-the-Month Deep Dive", "Automation Workflow Templates", "Private Community Access", "Cancel Anytime"],
   },
   {
     icon: "🗓️", title: "Annual AI Toolkit", price: "$249", period: "/yr", sub: true, badge: "Save $99",
+    productId: "toolkit-annual",
     desc: "Full year of monthly guides plus bonus templates, early access, and priority support.",
     features: ["Everything in Monthly Plan", "Save $99 vs. Monthly", "Bonus Automation Templates", "Early Access to New Guides", "Priority Email Support"],
   },
   {
     icon: "🏢", title: "Business Launch Starter Kit", price: "$79", period: " one-time", sub: false,
+    productId: "starter-kit",
     desc: "Step-by-step PDF guide to launching your business — from LLC setup to your first paying client.",
     features: ["LLC & Business Structure Guide", "Branding Basics Workbook", "First Website Checklist", "Google Business Profile Setup", "Social Media Starter Pack", "First 10 Clients Outreach Templates"],
   },
   {
     icon: "💡", title: "AI Prompt Library", price: "$49", period: " one-time", sub: false,
+    productId: "prompt-library",
     desc: "150+ battle-tested business prompts for sales, social, email, proposals, and more.",
     features: ["150+ Business Prompts", "Sales & Proposal Templates", "Social Media Caption Bank", "Email Sequence Templates", "Client Communication Scripts", "SEO-Focused Content Prompts"],
   },
@@ -28,12 +33,64 @@ const PRODUCTS = [
 
 const FAQS = [
   { q: "Do I need any tech experience to use these guides?", a: "Not at all. Every guide is written in plain English for business owners, not developers. If you can use Google Docs, you can follow these guides." },
-  { q: "What format are the PDFs in?", a: "All guides are delivered as beautifully formatted PDFs, viewable on any device. Subscribers also get fillable worksheet versions." },
+  { q: "What format are the PDFs in?", a: "All guides are delivered as beautifully formatted PDFs, viewable on any device. You'll receive a personal download link by email immediately after purchase." },
   { q: "Can I upgrade to full service later?", a: "Absolutely. Many clients start with a DIY guide to understand their options, then hire us to execute. We even credit your guide purchase toward your first package." },
+  { q: "What if I don't receive my email?", a: "Check your spam folder first. If it's still not there after 10 minutes, email admin@techunaverse.com with your receipt and we'll sort it immediately." },
 ];
+
+function CheckoutButton({ productId, sub }: { productId: string; sub: boolean }) {
+  const [status, setStatus] = useState<Status>("idle");
+
+  async function handleClick() {
+    setStatus("loading");
+    try {
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ productId }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.url) throw new Error(data.error ?? "Failed to create checkout");
+      window.location.href = data.url;
+    } catch {
+      setStatus("error");
+      setTimeout(() => setStatus("idle"), 3000);
+    }
+  }
+
+  return (
+    <button
+      onClick={handleClick}
+      disabled={status === "loading"}
+      className="text-center block w-full py-3 rounded-[10px] text-[0.88rem] font-semibold border border-[rgba(6,182,212,0.4)] text-teal hover:bg-teal hover:text-navy transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer bg-transparent"
+    >
+      {status === "loading" ? "Redirecting…" : status === "error" ? "Try again" : sub ? "Subscribe Now →" : "Get Instant Access →"}
+    </button>
+  );
+}
 
 export default function Resources() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [leadStatus, setLeadStatus] = useState<Status>("idle");
+  const [leadEmail, setLeadEmail] = useState("");
+
+  async function handleLeadSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setLeadStatus("loading");
+    try {
+      const res = await fetch("/api/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: leadEmail }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+      setLeadStatus("success");
+    } catch {
+      setLeadStatus("error");
+      setTimeout(() => setLeadStatus("idle"), 3000);
+    }
+  }
 
   return (
     <div className="pt-20 pb-20">
@@ -63,15 +120,31 @@ export default function Resources() {
               <h2 className="font-bold text-xl mt-1 mb-2">AI Tool Checklist for Small Businesses</h2>
               <p className="text-slate-400 text-[0.88rem] leading-relaxed">The 12 AI tools every small business should know about in 2026 — with use cases, pricing, and getting-started tips. No fluff.</p>
             </div>
-            <form
-              onSubmit={(e) => { e.preventDefault(); alert("Checklist sent! Check your inbox."); }}
-              className="flex flex-col sm:flex-row gap-2 flex-shrink-0"
-            >
-              <input type="email" placeholder="your@email.com" required className="bg-glass border border-glass rounded-[8px] px-4 py-2.5 text-white placeholder-slate-500 text-[0.87rem] outline-none focus:border-[rgba(212,175,55,0.4)] w-52" />
-              <button type="submit" className="px-5 py-2.5 bg-gradient-to-r from-gold to-gold2 text-navy font-bold rounded-[8px] cursor-pointer border-none text-[0.87rem] whitespace-nowrap hover:opacity-90 transition-opacity">
-                Get Free Checklist →
-              </button>
-            </form>
+
+            {leadStatus === "success" ? (
+              <div className="flex-shrink-0 text-center">
+                <p className="text-emerald-400 font-semibold text-[0.9rem]">✓ Check your inbox!</p>
+                <p className="text-slate-500 text-[0.78rem] mt-1">Download link sent.</p>
+              </div>
+            ) : (
+              <form onSubmit={handleLeadSubmit} className="flex flex-col sm:flex-row gap-2 flex-shrink-0">
+                <input
+                  type="email"
+                  value={leadEmail}
+                  onChange={e => setLeadEmail(e.target.value)}
+                  placeholder="your@email.com"
+                  required
+                  className="bg-glass border border-glass rounded-[8px] px-4 py-2.5 text-white placeholder-slate-500 text-[0.87rem] outline-none focus:border-[rgba(212,175,55,0.4)] w-52"
+                />
+                <button
+                  type="submit"
+                  disabled={leadStatus === "loading"}
+                  className="px-5 py-2.5 bg-gradient-to-r from-gold to-gold2 text-navy font-bold rounded-[8px] cursor-pointer border-none text-[0.87rem] whitespace-nowrap hover:opacity-90 transition-opacity disabled:opacity-60"
+                >
+                  {leadStatus === "loading" ? "Sending…" : leadStatus === "error" ? "Try again" : "Get Free Checklist →"}
+                </button>
+              </form>
+            )}
           </div>
         </ScrollReveal>
 
@@ -93,9 +166,7 @@ export default function Resources() {
                     </li>
                   ))}
                 </ul>
-                <Link href="/contact" className="text-center block py-3 rounded-[10px] text-[0.88rem] font-semibold no-underline border border-[rgba(6,182,212,0.4)] text-teal hover:bg-teal hover:text-navy transition-all duration-200">
-                  {d.sub ? "Subscribe Now →" : "Get Instant Access →"}
-                </Link>
+                <CheckoutButton productId={d.productId} sub={d.sub} />
               </div>
             </ScrollReveal>
           ))}
@@ -127,9 +198,9 @@ export default function Resources() {
           <div className="bg-gradient-to-br from-[rgba(124,58,237,0.15)] to-[rgba(212,175,55,0.08)] border border-[rgba(212,175,55,0.2)] rounded-[20px] p-10 text-center">
             <h2 className="font-serif text-[1.8rem] font-black mb-3">Ready to Skip to <span className="text-gold">Done-For-You?</span></h2>
             <p className="text-slate-400 max-w-[420px] mx-auto mb-7 leading-relaxed">Guide purchases credit toward any full-service package. Let us do the heavy lifting.</p>
-            <Link href="/services" className="inline-block px-8 py-3.5 bg-gradient-to-r from-purple to-purple2 text-white rounded-[10px] font-semibold shadow-[0_4px_20px_rgba(124,58,237,0.4)] hover:-translate-y-0.5 transition-all duration-200 no-underline">
-              View Full Service Packages →
-            </Link>
+            <a href="https://calendar.app.google/F7pGNirVTiWuG3CM7" target="_blank" rel="noopener noreferrer" className="inline-block px-8 py-3.5 bg-gradient-to-r from-purple to-purple2 text-white rounded-[10px] font-semibold shadow-[0_4px_20px_rgba(124,58,237,0.4)] hover:-translate-y-0.5 transition-all duration-200 no-underline">
+              Book a Free Discovery Call →
+            </a>
           </div>
         </ScrollReveal>
       </div>
