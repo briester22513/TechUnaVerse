@@ -228,7 +228,7 @@ const PORTFOLIO: {
 ];
 
 const FILTERS: { key: "all" | PortfolioType; label: string }[] = [
-  { key: "all",     label: "All Work" },
+  { key: "all",     label: "All" },
   { key: "website", label: "🌐  Websites" },
   { key: "aibot",   label: "🤖  AI Bots" },
   { key: "setup",   label: "🏢  Business Setup" },
@@ -241,17 +241,17 @@ export default function Work() {
   return (
     <div className="pt-20 pb-20 px-6 lg:px-10 max-w-6xl mx-auto">
       <ScrollReveal>
-        <span className="text-[0.75rem] font-bold uppercase tracking-widest text-purple2">Portfolio</span>
+        <span className="text-[0.75rem] font-bold uppercase tracking-widest text-purple2">Sample Solutions</span>
         <h1 className="font-serif text-[clamp(2.2rem,5vw,3.2rem)] font-black leading-tight mt-2 mb-3">
-          What We Can <span className="text-gold">Build For You.</span>
+          What We <span className="text-gold">Build.</span>
         </h1>
         <p className="text-slate-400 max-w-[600px] leading-[1.8] mb-3">
-          Every project below represents the type of work we deliver — websites, AI bots, and business systems.
-          We build for real estate, healthcare, nonprofits, and local businesses.
+          These are demos and sample projects showing the type of websites, AI bots, and business systems we build.
+          We work with real estate teams, healthcare practices, nonprofits, and local businesses.
         </p>
         <p className="text-slate-500 text-[0.82rem] mb-10 italic">
-          *Examples are representative. Ready to see what we&apos;d build for your specific business?{" "}
-          <Link href="/contact" className="text-gold hover:underline">Let&apos;s talk.</Link>
+          *These are sample/demo projects illustrating our capabilities. Ready to see what we&apos;d build for your business?{" "}
+          <Link href="/contact" className="text-gold hover:underline">Book a free call.</Link>
         </p>
       </ScrollReveal>
 
