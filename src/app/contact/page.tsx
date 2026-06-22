@@ -52,10 +52,12 @@ export default function Contact() {
             <p className="text-gold2 text-[0.85rem] font-bold mb-2">📅 Schedule a Free 15-Min Call</p>
             <p className="text-slate-400 text-[0.86rem] leading-relaxed mb-3">Just want to ask a quick question? We offer free 15-minute intro calls.</p>
             <a
-              href="mailto:admin@techunaverse.com?subject=Free 15-Min Call Request"
+              href="https://calendar.app.google/F7pGNirVTiWuG3CM7"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-block text-gold text-[0.86rem] font-semibold border border-[rgba(212,175,55,0.4)] rounded-[8px] px-4 py-2 hover:bg-gold hover:text-navy transition-all duration-200 no-underline"
             >
-              Request a Call →
+              Book a Time →
             </a>
           </div>
         </ScrollReveal>

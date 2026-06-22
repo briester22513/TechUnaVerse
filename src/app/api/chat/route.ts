@@ -41,7 +41,7 @@ const KB = [
   {
     id: "strategy-session",
     tags: ["strategy session", "consultation", "90 minute", "250", "call", "book", "roadmap", "1 on 1", "one on one", "advice", "unsure where to start"],
-    content: `AI Strategy Session (90 min) — $250. A one-on-one roadmap call with Brionna Alexander herself. Covers your business goals, current tools, and delivers a clear AI action plan. Ideal if you're unsure where to begin with AI. Includes a written summary of recommendations. Book at techunaverse.com/contact.`,
+    content: `AI Strategy Session (90 min) — $250. A one-on-one roadmap call with Brionna Alexander herself. Covers your business goals, current tools, and delivers a clear AI action plan. Ideal if you're unsure where to begin with AI. Includes a written summary of recommendations. Book directly at https://calendar.app.google/F7pGNirVTiWuG3CM7 or via techunaverse.com/contact.`,
   },
   {
     id: "all-pricing",
@@ -76,7 +76,7 @@ const KB = [
   {
     id: "get-started",
     tags: ["get started", "how to start", "contact", "book", "begin", "work with", "hire", "next step", "ready"],
-    content: `To get started with TechUnaVerse: Visit techunaverse.com/contact and submit a project inquiry or book a Discovery Call. For UNA Studios, email admin@techunaverse.com with your project details. For AI services, the $250 AI Strategy Session is the fastest way to get a personalized roadmap. All inquiries get a response within 24 hours.`,
+    content: `To get started with TechUnaVerse: Book a free discovery call directly at https://calendar.app.google/F7pGNirVTiWuG3CM7, or fill out the contact form at techunaverse.com/contact. For UNA Studios, email admin@techunaverse.com with your project details. For AI services, the $250 AI Strategy Session is the fastest way to get a personalized roadmap. All inquiries get a response within 24 hours.`,
   },
   {
     id: "contact",
