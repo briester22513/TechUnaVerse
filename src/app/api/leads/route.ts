@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getResend } from "@/lib/resend-client";
+import { sendEmail } from "@/lib/mailer";
 import { getAdminSupabase } from "@/lib/supabase-admin";
 
 export async function POST(req: NextRequest) {
@@ -19,8 +19,7 @@ export async function POST(req: NextRequest) {
     const downloadUrl = urlData?.signedUrl ?? `${process.env.NEXT_PUBLIC_SITE_URL}/api/admin/seed-pdfs`;
 
     // Send email
-    await getResend().emails.send({
-      from: "TechUnaVerse <hello@techunaverse.com>",
+    await sendEmail({
       to: email,
       subject: "Your free AI Tool Checklist is here ✦",
       html: `
@@ -50,6 +49,7 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({ ok: true });
+
   } catch (err) {
     console.error("Leads error:", err);
     return NextResponse.json({ error: "Something went wrong. Please try again." }, { status: 500 });

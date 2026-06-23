@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getStripe } from "@/lib/stripe";
-import { getResend } from "@/lib/resend-client";
+import { sendEmail } from "@/lib/mailer";
 import { getAdminSupabase } from "@/lib/supabase-admin";
 import { PRODUCTS } from "@/lib/products";
 
@@ -57,8 +57,7 @@ export async function POST(req: NextRequest) {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://techunaverse.com";
   const downloadUrl = `${siteUrl}/api/download/${token}`;
 
-  await getResend().emails.send({
-    from: "TechUnaVerse <hello@techunaverse.com>",
+  await sendEmail({
     to: email,
     subject: `Your ${productName} is ready to download ✦`,
     html: `
