@@ -19,6 +19,10 @@ export function getMailer() {
 }
 
 export async function sendEmail({ to, subject, html }: { to: string; subject: string; html: string }) {
+  if (!process.env.GMAIL_USER || !process.env.GMAIL_APP_PASSWORD) {
+    console.log(`[email skipped] to=${to} subject="${subject}"`);
+    return;
+  }
   await getMailer().sendMail({
     from: `TechUnaVerse <${process.env.GMAIL_USER}>`,
     to,
